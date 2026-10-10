@@ -322,8 +322,6 @@ namespace FarmComeback
 
             FieldTripsAPI.AddFieldTrip(farmTrip, 100, TripTiers.TierOne);
 
-            AssetFinder.FindOfTypeWithName<PitstopGameManager>("FieldTripManager_Camping", true).ReflectionSetVariable("forcedTrip", farmTrip);
-
             yield return "FarmComeback : Loading Level Editor...";
             if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio")) { EditorSupport.AddEditorContent(); }
         }
