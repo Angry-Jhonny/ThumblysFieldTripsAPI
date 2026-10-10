@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "key": "Nothing",
+      "value": ""
+    },
+
+    {
+      "key": "Vfx_BAL_FarmIntro_1",
+      "value": "Welcome to the farm!"
+    },
+
+    {
+      "key": "Mgm_Haystack_Title",
+      "value": "Haystack Fever"
+    },
+    {
+      "key": "Mgm_Haystack_Desc",
+      "value": "Stack the falling hay so we can help Farmer to save up for winter!"
+    },
+    {
+      "key": "Mgm_Haystack_Win",
+      "value": "We finished very fast! Farmer can go on vacation early!"
+    },
+    {
+      "key": "Mgm_Haystack_Lose",
+      "value": "We failed the job... Now Farmer needs to cancel his vacation!"
+    },
+    {
+      "key": "Mgm_Haystack_Tut1",
+      "value": "Are your reflexes ready? Because we need to stack fast in Haystack Fever!"
+    },
+    {
+      "key": "Mgm_Haystack_Tut2",
+      "value": "I will toss some hay bales and they will come down to you."
+    },
+    {
+      "key": "Mgm_Haystack_Tut3",
+      "value": "When you catch it, i will move on to launch the next piece!"
+    },
+    {
+      "key": "Mgm_Haystack_Tut4",
+      "value": "When i see that you the hand on it, i will speed up.\nSo i hope Dr.Reflex helped you!"
+    },
+    {
+      "key": "Mgm_Haystack_Tut5",
+      "value": "Look at this big stack!"
+    },
+    {
+      "key": "Mgm_Haystack_Tut6",
+      "value": "Not always you will be able to catch the falling hays...\nOnly 2 or 3 missed hays should be fine."
+    },
+    {
+      "key": "Mgm_Haystack_Tut7",
+      "value": "When you get 3 Strikes, it's game over!"
+    }
+  ]
+}
