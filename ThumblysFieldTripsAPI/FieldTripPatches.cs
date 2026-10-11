@@ -11,17 +11,20 @@ namespace ThumblysFieldTripsAPI.Patches
     [HarmonyPatch("Initialize")]
     internal class FieldTripPatches
     {
-        static void Postfix(MainMenu __instance, ref SoundObject ___audCampIntro, ref Animator ___animator)
+        static void Postfix(FieldTripEntranceRoomFunction __instance, ref SoundObject ___audCampIntro, ref Animator ___animator)
         {
-            FieldTripObject trip = Singleton<CoreGameManager>.Instance.currentFieldTrip;
-            ___audCampIntro = trip.intro;
-
-            if (trip.GetType().FullName == "ThumblysFieldTripsAPI.Extentions.ExtendedFieldTripObject")
+            if (!Singleton<CoreGameManager>.Instance.tripPlayed && Singleton<CoreGameManager>.Instance.tripAvailable)
             {
-                ExtendedFieldTripObject moddedTrip = (ExtendedFieldTripObject)trip;
+                FieldTripObject trip = Singleton<CoreGameManager>.Instance.currentFieldTrip;
+                ___audCampIntro = trip.intro;
 
-                Debug.Log("Custom field trip sprites found!");
-                FieldTripSpriteSwap.AddTripSpriteSwap(___animator.gameObject).Initialize(___animator.GetComponent<SpriteRenderer>(), moddedTrip);
+                if (trip.GetType().FullName == "ThumblysFieldTripsAPI.Extentions.ExtendedFieldTripObject")
+                {
+                    ExtendedFieldTripObject moddedTrip = (ExtendedFieldTripObject)trip;
+
+                    Debug.Log("Custom field trip sprites found!");
+                    FieldTripSpriteSwap.AddTripSpriteSwap(___animator.gameObject).Initialize(___animator.GetComponent<SpriteRenderer>(), moddedTrip);
+                }
             }
         }
     }
