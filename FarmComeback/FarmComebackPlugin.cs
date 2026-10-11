@@ -30,7 +30,7 @@ using MTM101BaldAPI.Components.Animation;
 
 namespace FarmComeback
 {
-    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.0.0")]
+    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.0")]
 
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.HardDependency)]
@@ -66,6 +66,8 @@ namespace FarmComeback
             Texture2D barnBeams = AssetLoader.TextureFromMod(this, "BarnWhiteWood.png");
             Texture2D barnRoof = AssetLoader.TextureFromMod(this, "BarnRoof.png");
 
+            Texture2D fenceTex = AssetLoader.TextureFromMod(this, "AnimalFence.png");
+
             Sprite FarmFlag = AssetLoader.SpriteFromMod(this, Vector2.right * 0.09375f, 16, "FarmFlag.png");
 
             Sprite HaystackBG0 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated00.png");
@@ -76,7 +78,7 @@ namespace FarmComeback
             Sprite PlayerImage = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "PlayerHaystack.png");
 
             Sprite[] HayImages = AssetLoader.SpritesFromSpritesheet(1, 4, 1, Vector2.one / 2, AssetLoader.TextureFromMod(this, "Haystack", "HayBales_Sheet.png"));
-            Sprite[] HayRotate = AssetLoader.SpritesFromSpritesheet(4, 4, 32, Vector2.one / 2, AssetLoader.TextureFromMod(this, "HayRotate_Sheet.png"));
+            Sprite[] HayRotate = AssetLoader.SpritesFromSpritesheet(4, 4, 32, new Vector2(0.5f, 0.11f), AssetLoader.TextureFromMod(this, "HayRotate_Sheet.png"));
 
             Sprite[] FarmSheet = AssetLoader.SpritesFromSpritesheet(8, 5, 1, Vector2.one / 2, AssetLoader.TextureFromMod(this, "FarmSheet.png"));
             if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio"))
@@ -85,6 +87,7 @@ namespace FarmComeback
                 EditorIcons.Add("Editor_Barn", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_barn.png"));
                 EditorIcons.Add("Editor_Hay", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_hay.png"));
                 EditorIcons.Add("Editor_Sign", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_sign.png"));
+                EditorIcons.Add("Editor_Fence", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_fence.png"));
             }
 
             SoundObject farmIntro = CreateSoundobject(Color.green, SoundType.Voice, "Vfx_BAL_Intro_Farm", "BAL_Intro_Farm");
@@ -109,15 +112,18 @@ namespace FarmComeback
             FarmFlagObj.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
             FarmFlagObj.GetComponentInChildren<SpriteRenderer>().sprite = FarmFlag;
 
-            GameObject HayObject = Instantiate(AssetFinder.FindOfTypeWithName<GameObject>("Plant", true));
+            GameObject HayObject = Instantiate(AssetFinder.FindOfTypeWithName<GameObject>("Plant", true).GetComponentInChildren<SpriteRenderer>().gameObject);
             HayObject.gameObject.name = "HayObject";
             HayObject.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
-            SpriteRenderer HayRenderer = HayObject.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer HayRenderer = HayObject.GetComponent<SpriteRenderer>();
             HayRenderer.sprite = HayRotate[0];
-            HayRenderer.transform.localPosition = Vector3.up * 4f;
-            SpriteRotator rotator = HayRenderer.gameObject.AddComponent<SpriteRotator>();
-            rotator.ReflectionSetVariable("spriteRenderer", HayRenderer);
-            rotator.ReflectionSetVariable("sprites", HayRotate);
+            HayRenderer.transform.position = Vector3.zero;
+            AnimatedSpriteRotator rotator = HayRenderer.gameObject.AddComponent<AnimatedSpriteRotator>();
+            rotator.ReflectionSetVariable("renderer", HayRenderer);
+            SpriteRotationMap rotationMap = new SpriteRotationMap();
+            rotationMap.angleCount = 16;
+            rotationMap.ReflectionSetVariable("spriteSheet", HayRotate);
+            rotator.ReflectionSetVariable("spriteMap", new SpriteRotationMap[1] { rotationMap });
 
             Material tileBaseMat = Resources.FindObjectsOfTypeAll<Material>().First(x => x.name == "TileBase" && x.GetInstanceID() >= 0);
             Shader standardShader = Resources.FindObjectsOfTypeAll<Shader>().First(x => x.name == "Shader Graphs/Standard");
@@ -149,10 +155,26 @@ namespace FarmComeback
             navMesh.size = collider.size;
             navMesh.carving = true;
 
+            Material FenceMat = new Material(tileBaseMat) { name = "AnimalFence", shader = standardShader };
+            FenceMat.SetMainTexture(fenceTex);
+
+            GameObject FenceObject = new GameObject("AnimalFence");
+            FenceObject.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
+            GameObject FenceMesh1 = new GameObject("FenceModel");
+            FenceMesh1.transform.SetParent(FenceObject.transform);
+            FenceMesh1.transform.localPosition = new Vector3(0, 5, 5);
+            FenceMesh1.transform.localScale = Vector3.one * 10;
+            FenceMesh1.AddComponent<MeshCollider>().sharedMesh = AssetFinder.FindOfTypeWithName<Mesh>("Quad", true);
+            FenceMesh1.AddComponent<MeshFilter>().mesh = AssetFinder.FindOfTypeWithName<Mesh>("Quad", true);
+            FenceMesh1.AddComponent<MeshRenderer>().sharedMaterial = FenceMat;
+            GameObject FenceMesh2 = Instantiate<GameObject>(FenceMesh1, FenceObject.transform, true);
+            FenceMesh2.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
 
             LevelLoaderPlugin.Instance.basicObjects.Add("Barn", BarnModel);
             LevelLoaderPlugin.Instance.basicObjects.Add("FarmFlag", FarmFlagObj);
             LevelLoaderPlugin.Instance.basicObjects.Add("HayObject", HayObject);
+            LevelLoaderPlugin.Instance.basicObjects.Add("AnimalFence", FenceObject);
             LevelLoaderPlugin.Instance.basicObjects.Add("SoonSign", AssetFinder.FindOfTypeWithName<Transform>("Sign0", true).gameObject);
 
             yield return "FarmComeback : Loading Room Asset...";
@@ -322,7 +344,22 @@ namespace FarmComeback
 
             FieldTripsAPI.AddFieldTrip(farmTrip, 100, TripTiers.TierOne);
 
-            AssetFinder.FindOfTypeWithName<PitstopGameManager>("FieldTripManager_Camping", true).ReflectionSetVariable("forcedTrip", farmTrip);
+            PitstopGameManager farmTripGameManager = new FieldTripGameManagerBuilder()
+                .SetName("FieldTripManager_Farm")
+                .SetFieldTrip(farmTrip)
+                .Build();
+
+            SceneObject vanillaFarmScene = AssetFinder.FindOfTypeWithName<SceneObject>("Farm", true);
+            vanillaFarmScene.levelTitle = "FT";
+            vanillaFarmScene.storeUsesNextLevelData = true;
+            vanillaFarmScene.skippable = true;
+            vanillaFarmScene.usesMap = false;
+            vanillaFarmScene.manager = farmTripGameManager;
+            vanillaFarmScene.levelAsset = AssetFinder.FindOfTypeWithName<LevelAsset>("Pitstop", true);
+            vanillaFarmScene.extraAsset = AssetFinder.FindOfTypeWithName<ExtraLevelDataAsset>("PitstopExtraData", true);
+            vanillaFarmScene.extraAsset = AssetFinder.FindOfTypeWithName<ExtraLevelDataAsset>("PitstopExtraData", true);
+            vanillaFarmScene.skybox = AssetFinder.FindOfTypeWithName<Cubemap>("Cubemap_DayStandard", true);
+
 
             yield return "FarmComeback : Loading Level Editor...";
             if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio")) { EditorSupport.AddEditorContent(); }

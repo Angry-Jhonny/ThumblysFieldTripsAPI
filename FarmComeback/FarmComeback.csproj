@@ -56,7 +56,7 @@
       <HintPath>..\..\..\Baldi's Basics Plus\BepInEx\plugins\LevelStudio\PlusStudioLevelLoader.dll</HintPath>
     </Reference>
     <Reference Include="ThumblysFieldTripsAPI">
-      <HintPath>..\ThumblysFieldTripsAPI\bin\Debug\netstandard2.1\ThumblysFieldTripsAPI.dll</HintPath>
+      <HintPath>..\ThumblysFieldTripsAPI\bin\Debug\net472\ThumblysFieldTripsAPI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\..\Baldi's Basics Plus\BALDI_Data\Managed\Unity.TextMeshPro.dll</HintPath>

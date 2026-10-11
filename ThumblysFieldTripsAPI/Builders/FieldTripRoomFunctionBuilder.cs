@@ -66,7 +66,7 @@ namespace ThumblysFieldTripsAPI.Builders
             Transform bus = Object.Instantiate(FieldTripsAPI.assetMan.Get<Transform>("Bus"), objectBase.transform);
             bus.localPosition = _busPos;
             bus.localRotation = _busDirection.ToRotation();
-            Transform busOccupied = Object.Instantiate(FieldTripsAPI.assetMan.Get<Transform>("Bus"), objectBase.transform);
+            Transform busOccupied = Object.Instantiate(FieldTripsAPI.assetMan.Get<Transform>("BusOccupied"), objectBase.transform);
             busOccupied.localPosition = bus.localPosition;
             busOccupied.localRotation = bus.rotation;
             Transform exitTrigger = Object.Instantiate(FieldTripsAPI.assetMan.Get<Transform>("ExitTrigger"), bus);

@@ -15,7 +15,7 @@ using UnityEngine;
 namespace ThumblysFieldTripsAPI
 {
 
-    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.0.0")]
+    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.2.1")]
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     public class FieldTripsAPI : BaseUnityPlugin
     {
@@ -95,6 +95,8 @@ namespace ThumblysFieldTripsAPI
 
 
             assetMan.Add<PitstopGameManager>("Pitstop", AssetFinder.FindOfTypeWithName<PitstopGameManager>("PitstopManager", true));
+            assetMan.Add<PitstopGameManager>("FieldTripGameManager", AssetFinder.FindOfTypeWithName<PitstopGameManager>("FieldTripManager_Camping", true));
+            assetMan.Add<SceneObject>("CampingScene", AssetFinder.FindOfTypeWithName<SceneObject>("Camping", true));
             assetMan.Add<Cubemap>("DefaultSky", AssetFinder.FindOfTypeWithName<Cubemap>("Cubemap_DayStandard", true));
 
             MinigameBase minigameBase = AssetFinder.FindOfTypeWithName<MinigameBase>("Minigame_PicnicPanic", true);
