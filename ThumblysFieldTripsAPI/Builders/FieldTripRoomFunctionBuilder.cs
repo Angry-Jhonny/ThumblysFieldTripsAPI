@@ -119,7 +119,7 @@ namespace ThumblysFieldTripsAPI.Builders
             _introAudioManager.SetValue(Function, IntroBaldi.GetComponent<AudioManager>());
             _audIntro.SetValue(Function, _IntroAudio);
             _ObjectsToToggle.Add(IntroBaldi.gameObject);
-            //Function.introBaldiSwap = FieldTripSpriteSwap.AddTripSpriteSwap(IntroBaldi);
+            Function.introBaldiSwap = FieldTripSpriteSwap.AddTripSpriteSwap(IntroBaldi);
 
             _objectBase.SetValue(Function, objectBase.transform);
             _objectToToggleAfterMinigame.SetValue(Function, _ObjectsToToggle.ToArray());

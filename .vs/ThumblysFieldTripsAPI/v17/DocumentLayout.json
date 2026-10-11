@@ -3,28 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\fieldtrippatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\fieldtrippatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\extentions\\extendedfieldtripbaseroomfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\extentions\\extendedfieldtripbaseroomfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\builders\\fieldtriproomfunctionbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\builders\\fieldtriproomfunctionbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\fieldtripsapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\fieldtripsapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\fieldtrippatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\fieldtrippatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\fieldtripsapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\fieldtripsapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\extentions\\extendedfieldtripbaseroomfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\extentions\\extendedfieldtripbaseroomfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,37 +38,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "FieldTripPatches.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\FieldTripPatches.cs",
               "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\FieldTripPatches.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\FieldTripPatches.cs",
               "RelativeToolTip": "ThumblysFieldTripsAPI\\FieldTripPatches.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwCIAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-11T08:44:52.749Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "FieldTripRoomFunctionBuilder.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Builders\\FieldTripRoomFunctionBuilder.cs",
               "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Builders\\FieldTripRoomFunctionBuilder.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Builders\\FieldTripRoomFunctionBuilder.cs",
               "RelativeToolTip": "ThumblysFieldTripsAPI\\Builders\\FieldTripRoomFunctionBuilder.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAwBAAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAkwHkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-11T08:41:22.312Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "ExtendedFieldTripBaseRoomFunction.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Extentions\\ExtendedFieldTripBaseRoomFunction.cs",
               "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Extentions\\ExtendedFieldTripBaseRoomFunction.cs",
@@ -81,38 +81,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "FieldTripsAPI.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\FieldTripsAPI.cs",
               "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\FieldTripsAPI.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\FieldTripsAPI.cs",
               "RelativeToolTip": "ThumblysFieldTripsAPI\\FieldTripsAPI.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAcwBUAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-11T08:36:15.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "FarmComebackEditor.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackEditor.cs",
               "RelativeDocumentMoniker": "FarmComeback\\FarmComebackEditor.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackEditor.cs",
               "RelativeToolTip": "FarmComeback\\FarmComebackEditor.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAqwBYAAACiAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAUwBYAAACiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-10T22:36:01.282Z"
+              "WhenOpened": "2026-10-10T22:36:01.282Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "FarmComebackPlugin.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
               "RelativeDocumentMoniker": "FarmComeback\\FarmComebackPlugin.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
               "RelativeToolTip": "FarmComeback\\FarmComebackPlugin.cs",
-              "ViewState": "AgIAAI8AAAAAAAAAAAAwwEwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABwBAAAAAAAAAAAwwC0BAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-10T13:41:33.28Z",
               "EditorCaption": ""
