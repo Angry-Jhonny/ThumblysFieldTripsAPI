@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomeback.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomeback.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -22,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FarmComeback",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComeback.csproj",
+              "RelativeDocumentMoniker": "FarmComeback\\FarmComeback.csproj",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComeback.csproj",
+              "RelativeToolTip": "FarmComeback\\FarmComeback.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-11T08:34:53.522Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -32,9 +49,10 @@
               "RelativeDocumentMoniker": "FarmComeback\\FarmComebackEditor.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackEditor.cs",
               "RelativeToolTip": "FarmComeback\\FarmComebackEditor.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAAABYAAACiAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAqwBYAAACiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-10T22:36:01.282Z"
+              "WhenOpened": "2026-10-10T22:36:01.282Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -44,14 +62,14 @@
               "RelativeDocumentMoniker": "FarmComeback\\FarmComebackPlugin.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
               "RelativeToolTip": "FarmComeback\\FarmComebackPlugin.cs",
-              "ViewState": "AgIAADUBAAAAAAAAAAAAAEMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACkAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-10T13:41:33.28Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Minigame_Haystack.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Haystack\\Minigame_Haystack.cs",
               "RelativeDocumentMoniker": "FarmComeback\\Haystack\\Minigame_Haystack.cs",
