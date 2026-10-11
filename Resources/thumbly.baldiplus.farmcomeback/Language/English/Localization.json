@@ -1,8 +1,8 @@
 {
   "items": [
     {
-      "key": "Nothing",
-      "value": ""
+      "key": "Men_FarmTrip",
+      "value": "Enjoy the great outdoors on a farming trip with Baldi and friends! Help Baldi stack hay bales in Haystack Fever."
     },
 
     {
@@ -16,43 +16,52 @@
     },
     {
       "key": "Mgm_Haystack_Desc",
-      "value": "Stack the falling hay so we can help Farmer to save up for winter!"
+      "value": "Help the farmer by stacking the falling hay as quickly as you can!"
     },
     {
       "key": "Mgm_Haystack_Win",
-      "value": "We finished very fast! Farmer can go on vacation early!"
+      "value": "Thanks to you, all the work is done sooner (Rather then later)!"
     },
     {
       "key": "Mgm_Haystack_Lose",
-      "value": "We failed the job... Now Farmer needs to cancel his vacation!"
+      "value": "You lost?! Try better next time!"
     },
     {
       "key": "Mgm_Haystack_Tut1",
-      "value": "Are your reflexes ready? Because we need to stack fast in Haystack Fever!"
+      "value": "Are your reflexes bad? Let's make sure it's not by stacking fast in Haystack Fever!"
     },
     {
       "key": "Mgm_Haystack_Tut2",
-      "value": "I will toss some hay bales and they will come down to you."
+      "value": "I will toss you some hay bales, and I need you to catch them!"
     },
     {
       "key": "Mgm_Haystack_Tut3",
-      "value": "When you catch it, i will move on to launch the next piece!"
+      "value": "Once you have a hay bale in your crate, I will move on to launch the next\nhay bale towards you."
     },
     {
       "key": "Mgm_Haystack_Tut4",
-      "value": "When i see that you the hand on it, i will speed up.\nSo i hope Dr.Reflex helped you!"
+      "value": "Once you have a hay bale in your crate, I will speed up.\nPay attention! Things can get pretty crazy!"
     },
     {
       "key": "Mgm_Haystack_Tut5",
-      "value": "Look at this big stack!"
+      "value": "Look at it!"
     },
     {
       "key": "Mgm_Haystack_Tut6",
-      "value": "Not always you will be able to catch the falling hays...\nOnly 2 or 3 missed hays should be fine."
+      "value": "Be quick though! If you take too long, you'll miss out and get a strike. Sorry about that!"
     },
     {
       "key": "Mgm_Haystack_Tut7",
-      "value": "When you get 3 Strikes, it's game over!"
+      "value": "Get three and that's game over!"
+    },
+
+    {
+      "key": "Mgm_Herding_Title",
+      "value": "Hectic Herding"
+    },
+    {
+      "key": "Mgm_Herding_Desc",
+      "value": "Looks like the animals escaped their enclosures, lets get them back in!"
     }
   ]
 }
