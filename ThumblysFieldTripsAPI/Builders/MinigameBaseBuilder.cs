@@ -28,6 +28,7 @@ namespace ThumblysFieldTripsAPI.Builders
         private string _winText = "Mgm_Base_Win";
         private string _loseText = "Mgm_Base_Lose";
 
+        private ScoringType _scoringType = ScoringType.HighestScore; // WIP
         private int _bonus = 250;
         private bool _usesCursor = false;
         private bool _skipsTitle = false;
@@ -213,5 +214,15 @@ namespace ThumblysFieldTripsAPI.Builders
             _skipsTitle = true;
             return this;
         }
+
+        /*/// <summary>
+        /// Sets high score type for the Minigame scoringMode.
+        /// </summary>
+        public MinigameBaseBuilder<T> SetScoringType(ScoringType scoringType)
+        {
+            _scoringType = scoringType;
+            GameObject o = new GameObject();
+            return this;
+        }*/
     }
 }

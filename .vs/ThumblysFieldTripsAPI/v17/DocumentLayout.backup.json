@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\herding\\minigame_herding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\herding\\minigame_herding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\patches\\triphighscorepatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\patches\\triphighscorepatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,34 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TripHighScorePatches.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "RelativeToolTip": "ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAADwvyUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T14:57:18.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Minigame_Haystack.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "RelativeDocumentMoniker": "FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "RelativeToolTip": "FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAAAIgAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-11T15:51:22.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "FarmComebackPlugin.cs",
               "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
               "RelativeDocumentMoniker": "FarmComeback\\FarmComebackPlugin.cs",
               "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
               "RelativeToolTip": "FarmComeback\\FarmComebackPlugin.cs",
-              "ViewState": "AgIAAJIAAAAAAAAAAAD4v54AAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAwwCABAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-11T12:53:11.158Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-10-11T15:50:48.785Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "FarmComebackEditor.cs",
-              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackEditor.cs",
-              "RelativeDocumentMoniker": "FarmComeback\\FarmComebackEditor.cs",
-              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackEditor.cs",
-              "RelativeToolTip": "FarmComeback\\FarmComebackEditor.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAC1AAAAAAAAAA==",
+              "Title": "Minigame_Herding.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Herding\\Minigame_Herding.cs",
+              "RelativeDocumentMoniker": "FarmComeback\\Herding\\Minigame_Herding.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Herding\\Minigame_Herding.cs",
+              "RelativeToolTip": "FarmComeback\\Herding\\Minigame_Herding.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-11T13:28:48.239Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-10-11T15:50:05.854Z",
               "EditorCaption": ""
             }
           ]

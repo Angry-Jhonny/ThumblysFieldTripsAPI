@@ -28,8 +28,9 @@ namespace ThumblysFieldTripsAPI.Patches
     [HarmonyPatch("AddTripScore")]
     internal class MinigameBaseScorePatch
     {
-        public static bool Prefix(int score, string name, MinigameName minigame, bool greaterWins, int rank)
+        public static bool Prefix(int score, string name, MinigameName minigame, bool greaterWins, out int rank)
         {
+            rank = -1;
             if (Enum.GetName(typeof(MinigameName), (int)minigame) == null)
             {
                 Singleton<ModdedFieldTripScoreManager>.Instance.AddScore(EnumExtensions.GetExtendedName<MinigameName>((int)minigame), score, name, out rank);
@@ -46,6 +47,7 @@ namespace ThumblysFieldTripsAPI.Patches
         public static void Prefix()
         {
             Singleton<ModdedFieldTripScoreManager>.Instance.SetDefaultsTrips();
+            Singleton<ModdedFieldTripScoreManager>.Instance.Save();
         }
     }
 }

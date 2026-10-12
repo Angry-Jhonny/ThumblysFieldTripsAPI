@@ -72,14 +72,14 @@ namespace FarmComeback.Haystack
         {
             base.VirtualStart();
             SpawnHay(getRandomHayPosition());
-
-            currentSupport = playerRect;
         }
 
         public override void VirtualReset()
         {
             base.VirtualReset();
             minigameHud.Reinitialize();
+            currentSupport = playerRect;
+            BG.sprite = BackgroundSprites[0];
             remaining = 40;
             remainingBeforeScroll = 4;
             HayFallSpeed = 120;
@@ -134,9 +134,9 @@ namespace FarmComeback.Haystack
 
                     float distance = Mathf.Abs(currentSupport.position.x - hay.RectTransform.position.x);
 
-                    IEnumerable<int> Yrange = Enumerable.Range(YSupportRange, 4);
+                    IEnumerable<int> Yrange = Enumerable.Range(YSupportRange, Mathf.CeilToInt(5 * MinigameSpeed));
 
-                    if (Yrange.Contains(YValue) && distance < 48f)
+                    if (Yrange.Contains(YValue) && distance < 42f)
                     {
                         HayCollected(hay);
                         SetSpeed(MinigameSpeed >= MaxMinigameSpeed ? 1f : MinigameSpeed + 0.05f);

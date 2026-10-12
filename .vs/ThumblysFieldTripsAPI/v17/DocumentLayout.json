@@ -1,12 +1,122 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\builders\\minigamebasebuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\builders\\minigamebasebuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\helpers\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\helpers\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\thumblysfieldtripsapi\\patches\\triphighscorepatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC618CE7-849A-4678-8FC4-B0D35166C26E}|ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI.csproj|solutionrelative:thumblysfieldtripsapi\\patches\\triphighscorepatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\haystack\\minigame_haystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\farmcomebackplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|c:\\users\\thumbly\\desktop\\projects\\thumblysfieldtripsapi\\farmcomeback\\herding\\minigame_herding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04841EB3-889D-4AB9-BBD1-49053529B312}|FarmComeback\\FarmComeback.csproj|solutionrelative:farmcomeback\\herding\\minigame_herding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MinigameBaseBuilder.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Builders\\MinigameBaseBuilder.cs",
+              "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Builders\\MinigameBaseBuilder.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Builders\\MinigameBaseBuilder.cs",
+              "RelativeToolTip": "ThumblysFieldTripsAPI\\Builders\\MinigameBaseBuilder.cs",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAAAN8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T16:56:55.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Enums.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Helpers\\Enums.cs",
+              "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Helpers\\Enums.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Helpers\\Enums.cs",
+              "RelativeToolTip": "ThumblysFieldTripsAPI\\Helpers\\Enums.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T16:57:12.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TripHighScorePatches.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "RelativeDocumentMoniker": "ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "RelativeToolTip": "ThumblysFieldTripsAPI\\Patches\\TripHighScorePatches.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACQAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T14:57:18.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Minigame_Haystack.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "RelativeDocumentMoniker": "FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "RelativeToolTip": "FarmComeback\\Haystack\\Minigame_Haystack.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAAAIoAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-11T15:51:22.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FarmComebackPlugin.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
+              "RelativeDocumentMoniker": "FarmComeback\\FarmComebackPlugin.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\FarmComebackPlugin.cs",
+              "RelativeToolTip": "FarmComeback\\FarmComebackPlugin.cs",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAwwCABAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-11T15:50:48.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Minigame_Herding.cs",
+              "DocumentMoniker": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Herding\\Minigame_Herding.cs",
+              "RelativeDocumentMoniker": "FarmComeback\\Herding\\Minigame_Herding.cs",
+              "ToolTip": "C:\\Users\\Thumbly\\Desktop\\Projects\\ThumblysFieldTripsAPI\\FarmComeback\\Herding\\Minigame_Herding.cs",
+              "RelativeToolTip": "FarmComeback\\Herding\\Minigame_Herding.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-11T15:50:05.854Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
