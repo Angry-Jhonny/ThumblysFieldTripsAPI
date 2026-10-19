@@ -15,7 +15,7 @@ namespace FarmComeback.Haystack
         public SoundObject audToss;
         public SoundObject audTossLands;
 
-        public SoundObject audError;
+        public SoundObject audWrong;
 
         public Sprite[] HaySprites = new Sprite[0];
 
@@ -118,7 +118,7 @@ namespace FarmComeback.Haystack
             playerWobble += minigameBase.DeltaTime;
             Singleton<InputManager>.Instance.GetAnalogInput(MoveAnalogData, out analogThisFrame, out deltaThisFrame);
             float offset = playerRect.position.x - currentSupport.position.x;
-            position = Mathf.Clamp(position + deltaThisFrame.x + analogThisFrame.x * Time.unscaledDeltaTime * Singleton<PlayerFileManager>.Instance.controllerCursorSensitivity * 1.25f * MinigameSpeed, Range.x + offset, Range.y + offset);
+            position = Mathf.Clamp(position + deltaThisFrame.x + analogThisFrame.x * minigameBase.DeltaTime * Singleton<PlayerFileManager>.Instance.controllerCursorSensitivity * 1.25f * MinigameSpeed, Range.x + offset, Range.y + offset);
             UpdatePlayerPosition();
 
             if (fallingHays.Count > 0)
@@ -127,21 +127,17 @@ namespace FarmComeback.Haystack
                 hays.AddRange(fallingHays);
                 foreach (SpriteController hay in hays)
                 {
-                    hay.SetPosition(hay.Position - new Vector2(0, HayFallSpeed * minigameBase.DeltaTime * MinigameSpeed));
+                    float distancex = Mathf.Abs(currentSupport.position.x - hay.RectTransform.position.x);
 
-                    int YSupportRange = Mathf.RoundToInt(currentSupport.position.y + currentSupport.sizeDelta.y) - 24;
-                    int YValue = Mathf.RoundToInt(hay.RectTransform.position.y);
-
-                    float distance = Mathf.Abs(currentSupport.position.x - hay.RectTransform.position.x);
-
-                    IEnumerable<int> Yrange = Enumerable.Range(YSupportRange, Mathf.CeilToInt(5 * MinigameSpeed));
-
-                    if (Yrange.Contains(YValue) && distance < 42f)
+                    if (distancex < 51f)
                     {
-                        HayCollected(hay);
-                        SetSpeed(MinigameSpeed >= MaxMinigameSpeed ? 1f : MinigameSpeed + 0.05f);
+                        MoveHayCheck(hay);
                     }
-                    else if (hay.RectTransform.anchoredPosition.y <= -40)
+                    else
+                    {
+                        hay.SetPosition(hay.Position - new Vector2(0, HayFallSpeed * minigameBase.DeltaTime * MinigameSpeed));
+                    }
+                    if (hay.RectTransform.anchoredPosition.y <= -40)
                     {
                         HayFell(hay);
                         SetSpeed(MinigameSpeed >= MaxMinigameSpeed ? 1f : MinigameSpeed + 0.05f);
@@ -150,13 +146,35 @@ namespace FarmComeback.Haystack
             }
         }
 
+        private void MoveHayCheck(SpriteController hay)
+        {
+            int YSupportRange;
+            int YValue;
+            float distancey;
+            for (int i = 0; i < HayFallSpeed; i++)
+            {
+                hay.SetPosition(hay.Position - new Vector2(0, minigameBase.DeltaTime * MinigameSpeed));
+
+                YSupportRange = Mathf.RoundToInt(currentSupport.position.y + currentSupport.sizeDelta.y) - 24;
+                YValue = Mathf.RoundToInt(hay.RectTransform.position.y);
+                distancey = Mathf.Abs(YSupportRange - hay.RectTransform.position.y);
+
+                if (distancey < 5f)
+                {
+                    HayCollected(hay);
+                    SetSpeed(MinigameSpeed >= MaxMinigameSpeed ? 1f : MinigameSpeed + 0.05f);
+                    return;
+                }
+            }
+        }
+
         private IEnumerator ScrollUpAnim()
         {
-            int delay = 0;
+            float delay = 0;
             while (currentSupport.position.y > -80)
             {
-                localPosition.y -= 2;
-                delay++;
+                localPosition.y -= 500 * minigameBase.DeltaTime;
+                delay += minigameBase.DeltaTime * 300;
                 if (delay >= 20)
                 {
                     delay = 0;
@@ -202,6 +220,7 @@ namespace FarmComeback.Haystack
         {
             minigameHud.LoseLife();
             fallingHays.Remove(HaySprite);
+            minigameBase.AudioManager.PlaySingle(audWrong);
 
             if (minigameHud.livesLost == 3)
             {

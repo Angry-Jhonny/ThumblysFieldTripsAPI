@@ -33,7 +33,7 @@ namespace ThumblysFieldTripsAPI.Patches
             rank = -1;
             if (Enum.GetName(typeof(MinigameName), (int)minigame) == null)
             {
-                Singleton<ModdedFieldTripScoreManager>.Instance.AddScore(EnumExtensions.GetExtendedName<MinigameName>((int)minigame), score, name, out rank);
+                Singleton<ModdedFieldTripScoreManager>.Instance.AddScore(EnumExtensions.GetExtendedName<MinigameName>((int)minigame), score, name, greaterWins, out rank);
                 return false;
             }
             return true;

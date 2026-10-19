@@ -8,9 +8,38 @@ namespace ThumblysFieldTripsAPI
 {
     public enum ScoringType
     {
-        LowestScore,
         HighestScore,
-        LowestTime,
         HighestTime,
+        LowestScore,
+        LowestTime,
+    }
+
+    public static class ScoringTypeExtentions
+    {
+        public static bool GetWinsType(this ScoringType type)
+        {
+            bool flag = false;
+            switch (type)
+            {
+                case ScoringType.HighestScore:
+                    flag = true; break;
+                case ScoringType.HighestTime:
+                    flag = true; break;
+            }
+            return flag;
+        }
+
+        public static bool IsTimeScoring(this ScoringType type)
+        {
+            bool flag = false;
+            switch (type)
+            {
+                case ScoringType.HighestTime:
+                    flag = true; break;
+                case ScoringType.LowestTime:
+                    flag = true; break;
+            }
+            return flag;
+        }
     }
 }

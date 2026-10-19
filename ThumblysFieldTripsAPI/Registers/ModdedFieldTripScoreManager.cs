@@ -5,6 +5,7 @@ using UnityCipher;
 using UnityEngine;
 using Newtonsoft.Json;
 using MTM101BaldAPI.Registers;
+using System.Linq;
 
 namespace ThumblysFieldTripsAPI.Registers
 {
@@ -33,7 +34,7 @@ namespace ThumblysFieldTripsAPI.Registers
     {
         public List<FieldTripScore> tripScores = new List<FieldTripScore>() { };
 
-        public List<FieldTripScore> GetSortedScoresForMinigame(string minigameName)
+        public List<FieldTripScore> GetSortedScoresForMinigame(string minigameName, bool greaterWins)
         {
             List<FieldTripScore> list = new List<FieldTripScore>();
             for (int i = 0; i < tripScores.Count; i++)
@@ -44,11 +45,11 @@ namespace ThumblysFieldTripsAPI.Registers
                 }
             }
 
-            SortMinigameScores(list);
+            SortMinigameScores(list, greaterWins);
             return list;
         }
 
-        private void SortMinigameScores(List<FieldTripScore> scores)
+        private void SortMinigameScores(List<FieldTripScore> scores, bool greaterWins)
         {
             List<FieldTripScore> list = new List<FieldTripScore>();
             int count = scores.Count;
@@ -71,6 +72,10 @@ namespace ThumblysFieldTripsAPI.Registers
 
             scores.Clear();
             scores.AddRange(list);
+            if (!greaterWins)
+            {
+                scores.Reverse();
+            }
         }
 
         public void SetDefaultsTrips()
@@ -78,13 +83,13 @@ namespace ThumblysFieldTripsAPI.Registers
             tripScores.Clear();
         }
 
-        public void AddScore(string minigame, int score, string name, out int rank)
+        public void AddScore(string minigame, int score, string name, bool greaterWins, out int rank)
         {
             bool flag = false;
             rank = -1;
             FieldTripScore tripScore = new FieldTripScore(minigame, score, name);
             tripScores.Add(tripScore);
-            List<FieldTripScore> list = new List<FieldTripScore>(GetSortedScoresForMinigame(minigame));
+            List<FieldTripScore> list = new List<FieldTripScore>(GetSortedScoresForMinigame(minigame, greaterWins));
             for (int i = 0; i < list.Count && i < 5; i++)
             {
                 if (list[i] == tripScore)

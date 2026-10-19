@@ -21,6 +21,8 @@ namespace ThumblysFieldTripsAPI.Extentions
         public TMP_Text[] valueTmp = new TMP_Text[0];
         public TMP_Text titleTmp;
 
+        public ScoringType scoringType;
+
         public void Setup(MinigameHighScoreTable highScoreTable)
         {
             if (initialized) return;
@@ -35,21 +37,56 @@ namespace ThumblysFieldTripsAPI.Extentions
             string enumName = EnumExtensions.GetExtendedName<MinigameName>((int)minigame);
 
             titleTmp.text = Singleton<LocalizationManager>.Instance.GetLocalizedText(nameKey) + " " + Singleton<LocalizationManager>.Instance.GetLocalizedText("Mgm_Leaderboard");
-            List<FieldTripScore> sortedScores = Singleton<ModdedFieldTripScoreManager>.Instance.GetSortedScoresForMinigame(enumName);
+            List<FieldTripScore> sortedScores = Singleton<ModdedFieldTripScoreManager>.Instance.GetSortedScoresForMinigame(enumName, scoringType.GetWinsType());
+
+            bool isTimed = scoringType.IsTimeScoring();
 
             for (int i = 0; i < nameTmp.Length; i++)
             {
                 if (sortedScores != null && i < sortedScores.Count)
                 {
                     nameTmp[i].text = sortedScores[i].name;
-                    valueTmp[i].text = sortedScores[i].score.ToString();
+                    if (isTimed)
+                    {
+                        float currentScore = (float)sortedScores[i].score / 100f;
+                        int seconds = Mathf.FloorToInt(currentScore % 60f);
+                        int minutes = Mathf.FloorToInt(currentScore / 60f);
+                        int miliseconds = Mathf.FloorToInt((currentScore % 1) * 100);
+                        TMP_Text text = valueTmp[i];
+                        text.alignment = TextAlignmentOptions.Right;
+                        text.enableWordWrapping = false;
+                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, Format00(minutes), Format00(seconds), Format00(miliseconds));
+                    }
+                    else
+                    {
+                        valueTmp[i].text = sortedScores[i].score.ToString();
+                    }
                 }
                 else
                 {
                     nameTmp[i].text = Singleton<LocalizationManager>.Instance.GetLocalizedText("Name_Baldi");
-                    valueTmp[i].text = "0";
+                    if (isTimed)
+                    {
+                        TMP_Text text = valueTmp[i];
+                        text.alignment = TextAlignmentOptions.Right;
+                        text.enableWordWrapping = false;
+                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, "00", "00", "00");
+                    }
+                    else
+                    {
+                        valueTmp[i].text = "0";
+                    }
                 }
             }
+        }
+
+        private string Format00(int number)
+        {
+            if (number.ToString().Length == 1)
+            {
+                return "0" + number.ToString();
+            }
+            return number.ToString();
         }
     }
 }

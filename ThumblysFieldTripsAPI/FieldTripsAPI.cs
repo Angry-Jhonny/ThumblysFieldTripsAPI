@@ -15,7 +15,7 @@ using UnityEngine;
 namespace ThumblysFieldTripsAPI
 {
 
-    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.2.1")]
+    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.2.2")]
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     public class FieldTripsAPI : BaseUnityPlugin
     {
@@ -29,6 +29,8 @@ namespace ThumblysFieldTripsAPI
         private static FieldInfo _tierOneTrips = AccessTools.Field(typeof(PitstopGameManager), "tierOneTrips");
         private static FieldInfo _tierTwoTrips = AccessTools.Field(typeof(PitstopGameManager), "tierTwoTrips");
         private static FieldInfo _tierThreeTrips = AccessTools.Field(typeof(PitstopGameManager), "tierThreeTrips");
+
+        internal static string TimeScoreFormat = "{0}:{1}.{2}";
 
         public static MinigameHUD minigameHudPref {  get; private set; }
 

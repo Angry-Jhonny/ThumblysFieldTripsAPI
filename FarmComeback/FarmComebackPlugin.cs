@@ -30,7 +30,7 @@ using MTM101BaldAPI.Components.Animation;
 
 namespace FarmComeback
 {
-    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.0")]
+    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.1")]
 
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.HardDependency)]
@@ -308,6 +308,19 @@ namespace FarmComeback
             Haystack.gameRect = gameRect;
             Haystack.audToss = AssetFinder.FindOfTypeWithName<SoundObject>("CampfireToss", true);
             Haystack.audTossLands = AssetFinder.FindOfTypeWithName<SoundObject>("CampfireLand", true);
+            Haystack.audWrong = AssetFinder.FindOfTypeWithName<SoundObject>("Activity_Incorrect", true);
+
+
+
+            MinigameBase HerdingMinigame = new MinigameBaseBuilder<Minigame_Herding>()
+                .SetName("Minigame_Herding")
+                .SetTitle("Mgm_Herding_Title", "Mgm_Herding_Desc")
+                .SetMusic(MinigameMidi)
+                .SetEndText("Mgm_Herding_Win", "Mgm_Herding_Lose")
+                .SetEnum("Herding")
+                .NeedsCursor()
+                .Build();
+            Minigame_Herding Herding = HerdingMinigame.GetComponent<Minigame_Herding>();
 
             ExtendedFieldTripBaseRoomFunction farmFunction = new FieldTripRoomFunctionBuilder()
                 .SetBusTransform(new Vector3(100, 0, 15), Direction.South)
@@ -316,6 +329,8 @@ namespace FarmComeback
                 .SetTutorialBaldiSprite(farmTalkSprites[0]) // Required (if there is a AddMinigameTutorialBaldi)
                 .AddMinigameTrigger(new MinigameSettings(HaystackMinigame, new Vector3(116, 5, 150)))
                 .AddMinigameTutorialBaldi(HaystackTutorial, new Vector3(125, 5, 144))
+                //.AddMinigameTrigger(new MinigameSettings(HerdingMinigame, new Vector3(145, 5, 100)))
+                //.AddMinigameTutorialBaldi(HaystackTutorial, new Vector3(145, 5, 84))
                 .SetLootTable(loot) // Required
                 .SetItemSettings(8, 3) // Required
                 .SetPitstopItemOffset(new Vector3(-225.25f, 0, 13.5f)) // Required (if there is a Minigame)

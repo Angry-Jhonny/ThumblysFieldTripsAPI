@@ -28,7 +28,7 @@ namespace ThumblysFieldTripsAPI.Builders
         private string _winText = "Mgm_Base_Win";
         private string _loseText = "Mgm_Base_Lose";
 
-        private ScoringType _scoringType = ScoringType.HighestScore; // WIP
+        private ScoringType _scoringType = ScoringType.HighestScore;
         private int _bonus = 250;
         private bool _usesCursor = false;
         private bool _skipsTitle = false;
@@ -85,7 +85,10 @@ namespace ThumblysFieldTripsAPI.Builders
                 minigameType = EnumExtensions.ExtendEnum<MinigameName>(_enumName);
             }
 
-            ((MinigameHighScoreTable)_scoreTable.GetValue(minigame)).gameObject.AddComponent<ModdedMinigameHighScoreTable>().Setup((MinigameHighScoreTable)_scoreTable.GetValue(minigame));
+            MinigameHighScoreTable table = (MinigameHighScoreTable)_scoreTable.GetValue(minigame);
+            ModdedMinigameHighScoreTable moddedTable = table.gameObject.AddComponent<ModdedMinigameHighScoreTable>();
+            moddedTable.scoringType = _scoringType;
+            moddedTable.Setup(table);
 
             _minigame.SetValue(minigame, minigameType);
             _minigameController.SetValue(minigame, minigameComponent);
@@ -215,7 +218,7 @@ namespace ThumblysFieldTripsAPI.Builders
             return this;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Sets high score type for the Minigame scoringMode.
         /// </summary>
         public MinigameBaseBuilder<T> SetScoringType(ScoringType scoringType)
@@ -223,6 +226,6 @@ namespace ThumblysFieldTripsAPI.Builders
             _scoringType = scoringType;
             GameObject o = new GameObject();
             return this;
-        }*/
+        }
     }
 }
