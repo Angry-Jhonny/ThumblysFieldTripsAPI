@@ -9,13 +9,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ThumblysFieldTripsAPI.Builders;
+using ThumblysFieldTripsAPI.Extentions;
+using ThumblysFieldTripsAPI.Helpers;
 using ThumblysFieldTripsAPI.Registers;
 using UnityEngine;
 
 namespace ThumblysFieldTripsAPI
 {
 
-    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.2.2")]
+    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.3.1")]
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     public class FieldTripsAPI : BaseUnityPlugin
     {
@@ -25,21 +28,42 @@ namespace ThumblysFieldTripsAPI
         internal ConfigEntry<bool> removeVanillaTrips;
 
         private static List<TripAdditionSettings> TripsToAdd = new List<TripAdditionSettings>();
+        internal static List<TripMenuSettings> TripScenes = new List<TripMenuSettings>();
 
         private static FieldInfo _tierOneTrips = AccessTools.Field(typeof(PitstopGameManager), "tierOneTrips");
         private static FieldInfo _tierTwoTrips = AccessTools.Field(typeof(PitstopGameManager), "tierTwoTrips");
         private static FieldInfo _tierThreeTrips = AccessTools.Field(typeof(PitstopGameManager), "tierThreeTrips");
 
         internal static string TimeScoreFormat = "{0}:{1}.{2}";
+        internal static bool loadingMods = true;
 
         public static MinigameHUD minigameHudPref {  get; private set; }
 
         /// <summary>
+        /// Adds a field trip to the Pitstop game manager
         /// Please add them in the LoadingEventOrder.Pre phase.
         /// </summary>
         public static void AddFieldTrip(FieldTripObject trip, int weight, TripTiers tier)
         {
             TripsToAdd.Add(new TripAdditionSettings(trip, weight, tier));
+        }
+
+        /// <summary>
+        /// Creates a SceneObject and Manager and button to the trip pick screen.
+        /// </summary>
+        public static void AddTripToMenu(FieldTripObject trip, string nameKey, string descKey)
+        {
+            string tripString = EnumExtensions.GetExtendedName<FieldTrips>((int)trip.trip);
+            PitstopGameManager manager = new FieldTripGameManagerBuilder()
+                .SetName("FieldTripManager_" + tripString)
+                .SetFieldTrip(trip)
+                .Build();
+            SceneObject scene = new FieldTripSceneObjectBuilder()
+                .SetName(tripString)
+                .SetManager(manager)
+                .Build();
+
+            TripScenes.Add(new TripMenuSettings(scene, nameKey, descKey));
         }
 
         private IEnumerator RegisterFieldTrips()
@@ -95,6 +119,8 @@ namespace ThumblysFieldTripsAPI
             yield return 1;
             yield return "FTAPI | Gathering Resources";
 
+            TripScenes.Add(new TripMenuSettings(AssetFinder.FindOfTypeWithName<SceneObject>("Camping", true), "But_Trip_Camp", "Men_CampTrip"));
+            TripScenes.Add(new TripMenuSettings(AssetFinder.FindOfTypeWithName<SceneObject>("Farm", true), "But_Trip_Farm", "Men_FarmTrip"));
 
             assetMan.Add<PitstopGameManager>("Pitstop", AssetFinder.FindOfTypeWithName<PitstopGameManager>("PitstopManager", true));
             assetMan.Add<PitstopGameManager>("FieldTripGameManager", AssetFinder.FindOfTypeWithName<PitstopGameManager>("FieldTripManager_Camping", true));
@@ -149,7 +175,7 @@ WARNING: ONLY CHECK TO TRUE IF THERE ARE MODDED FIELD TRIPS OR THIS WILL BREAK T
         TierThree
     }
 
-    internal struct TripAdditionSettings
+    public struct TripAdditionSettings
     {
         public WeightedFieldTrip Object;
         public TripTiers Tier;
@@ -158,6 +184,20 @@ WARNING: ONLY CHECK TO TRUE IF THERE ARE MODDED FIELD TRIPS OR THIS WILL BREAK T
         {
             Object = new WeightedFieldTrip() { selection = trip, weight = weight };
             Tier = tier;
+        }
+    }
+
+    public struct TripMenuSettings
+    {
+        public SceneObject trip;
+        public string nameKey;
+        public string descKey;
+
+        public TripMenuSettings(SceneObject trip, string name, string desc)
+        {
+            this.trip = trip;
+            nameKey = name;
+            descKey = desc;
         }
     }
 }

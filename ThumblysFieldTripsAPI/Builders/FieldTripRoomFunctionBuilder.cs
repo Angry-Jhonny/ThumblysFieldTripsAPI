@@ -78,6 +78,8 @@ namespace ThumblysFieldTripsAPI.Builders
             {
                 obj.transform.SetParent(objectBase.transform, true);
             }
+            _ObjectsToToggle.Add(bus.gameObject);
+            _ObjectsToToggle.Add(busOccupied.gameObject);
 
             int i = 1;
             foreach (MinigameSettings minigame in _MinigamesToAdd)

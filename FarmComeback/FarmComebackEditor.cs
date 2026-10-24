@@ -30,10 +30,10 @@ namespace FarmComeback.Editor
             EditorInterfaceModes.AddToolsToCategory(mode, "objects", new EditorTool[]
             {
                 new ObjectTool("Barn", icons["Editor_Barn"]),
-                new ObjectTool("HayObject", icons["Editor_Hay"]),
                 new ObjectToolNoRotation("FarmFlag", icons["Editor_FarmFlag"]),
                 new ObjectTool("SoonSign", icons["Editor_Sign"]),
-                new ObjectTool("AnimalFence", icons["Editor_Fence"])
+                new ObjectTool("AnimalFence", icons["Editor_Fence"]),
+                new ObjectTool("HayObject", icons["Editor_Hay"])
             });
         }
     }

@@ -2,14 +2,19 @@
 using MTM101BaldAPI;
 using MTM101BaldAPI.Components;
 using System;
+using System.CodeDom;
+using System.Collections;
+using System.Linq;
 using System.Reflection;
 using ThumblysFieldTripsAPI.Extentions;
+using ThumblysFieldTripsAPI.Helpers;
 using ThumblysFieldTripsAPI.Registers;
+using TMPro;
+using UnityEngine;
 
 namespace ThumblysFieldTripsAPI.Patches
 {
-    [HarmonyPatch(typeof(MinigameHighScoreTable))]
-    [HarmonyPatch("UpdateScores")]
+    [HarmonyPatch(typeof(MinigameHighScoreTable), "UpdateScores")]
     [HarmonyPatch(new Type[] { typeof(MinigameName), typeof(string) })]
     internal class MinigameHighScoreTablePatch
     {
@@ -24,8 +29,7 @@ namespace ThumblysFieldTripsAPI.Patches
         }
     }
 
-    [HarmonyPatch(typeof(HighScoreManager))]
-    [HarmonyPatch("AddTripScore")]
+    [HarmonyPatch(typeof(HighScoreManager), "AddTripScore")]
     internal class MinigameBaseScorePatch
     {
         public static bool Prefix(int score, string name, MinigameName minigame, bool greaterWins, out int rank)
@@ -40,14 +44,31 @@ namespace ThumblysFieldTripsAPI.Patches
         }
     }
 
-    [HarmonyPatch(typeof(OptionsMenu))]
-    [HarmonyPatch("ResetTrip")]
+    [HarmonyPatch(typeof(OptionsMenu), "ResetTrip")]
     internal class ResetTripPatch
     {
         public static void Prefix()
         {
             Singleton<ModdedFieldTripScoreManager>.Instance.SetDefaultsTrips();
             Singleton<ModdedFieldTripScoreManager>.Instance.Save();
+        }
+    }
+
+    [HarmonyPatch(typeof(MainMenu), "Start")]
+    internal static class MainMenuPatch
+    {
+        static void Postfix(MainMenu __instance)
+        {
+            __instance.StartCoroutine(WaitForLoad());
+        }
+
+        static IEnumerator WaitForLoad()
+        {
+            while (Singleton<AdditiveSceneManager>.Instance.Busy)
+                yield return null;
+
+            Transform fieldTripScreen = Resources.FindObjectsOfTypeAll<CursorInitiator>().First(x => x.GetInstanceID() > 0 && x.name == "PickFieldTrip").transform;
+            fieldTripScreen.gameObject.AddComponent<PickFieldTripManager>().BuildScreen();
         }
     }
 }

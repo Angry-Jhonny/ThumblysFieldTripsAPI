@@ -30,7 +30,7 @@ using MTM101BaldAPI.Components.Animation;
 
 namespace FarmComeback
 {
-    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.1")]
+    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.2")]
 
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.HardDependency)]
@@ -170,6 +170,7 @@ namespace FarmComeback
             GameObject FenceMesh2 = Instantiate<GameObject>(FenceMesh1, FenceObject.transform, true);
             FenceMesh2.transform.localRotation = Quaternion.Euler(0, 180, 0);
 
+            AssetFinder.FindOfTypeWithName<Transform>("Sign0", true).GetComponentInChildren<SpriteRenderer>().material = AssetFinder.FindOfTypeWithName<Material>("SpriteStandard_NoBillboard", true);
 
             LevelLoaderPlugin.Instance.basicObjects.Add("Barn", BarnModel);
             LevelLoaderPlugin.Instance.basicObjects.Add("FarmFlag", FarmFlagObj);

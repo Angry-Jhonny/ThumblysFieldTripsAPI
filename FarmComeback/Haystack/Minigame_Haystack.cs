@@ -1,7 +1,5 @@
-﻿using MTM101BaldAPI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using ThumblysFieldTripsAPI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -77,6 +75,7 @@ namespace FarmComeback.Haystack
         public override void VirtualReset()
         {
             base.VirtualReset();
+            playerRect.SetSiblingIndex(1);
             minigameHud.Reinitialize();
             currentSupport = playerRect;
             BG.sprite = BackgroundSprites[0];
@@ -155,7 +154,7 @@ namespace FarmComeback.Haystack
             {
                 hay.SetPosition(hay.Position - new Vector2(0, minigameBase.DeltaTime * MinigameSpeed));
 
-                YSupportRange = Mathf.RoundToInt(currentSupport.position.y + currentSupport.sizeDelta.y) - 24;
+                YSupportRange = Mathf.RoundToInt(currentSupport.position.y + currentSupport.sizeDelta.y) - 28;
                 YValue = Mathf.RoundToInt(hay.RectTransform.position.y);
                 distancey = Mathf.Abs(YSupportRange - hay.RectTransform.position.y);
 
@@ -171,7 +170,7 @@ namespace FarmComeback.Haystack
         private IEnumerator ScrollUpAnim()
         {
             float delay = 0;
-            while (currentSupport.position.y > -80)
+            while (currentSupport.position.y >= -130)
             {
                 localPosition.y -= 500 * minigameBase.DeltaTime;
                 delay += minigameBase.DeltaTime * 300;
@@ -209,6 +208,7 @@ namespace FarmComeback.Haystack
         protected virtual void SpawnHay(float position)
         {
             SpriteController newHay = Instantiate<SpriteController>(hayPrefab, gameRect);
+            newHay.RectTransform.SetSiblingIndex(2);
             float offset = newHay.RectTransform.sizeDelta.x / 2;
             newHay.SetPosition(new Vector2(Mathf.Clamp(position, Range.x + offset, Range.y - offset), 380));
             fallingHays.Add(newHay);
