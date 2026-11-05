@@ -1,4 +1,4 @@
-﻿namespace FarmComeback.Herding
+﻿namespace BunchOfFieldTrips.Herding
 {
     public enum AnimalType
     {

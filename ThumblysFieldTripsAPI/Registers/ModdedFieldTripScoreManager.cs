@@ -4,31 +4,60 @@ using System.IO;
 using UnityCipher;
 using UnityEngine;
 using Newtonsoft.Json;
-using MTM101BaldAPI.Registers;
-using System.Linq;
 
 namespace ThumblysFieldTripsAPI.Registers
 {
+    #region New Save Structure
     [Serializable]
     public class ModdedFieldTripData
     {
-        public List<FieldTripScore> tripScores;
+        public List<FieldTripScore> tripScores = new List<FieldTripScore>();
+        public int version = 2;
     }
 
     [Serializable]
     public class FieldTripScore
     {
         public string minigame;
-        public int score;
+        public double score;
         public string name;
 
-        public FieldTripScore(string minigame, int score, string name)
+        public FieldTripScore(string minigame, double score, string name)
         {
             this.minigame = minigame;
             this.score = score;
             this.name = name;
         }
     }
+    #endregion
+
+    #region Old Save Structure
+    [Serializable]
+    public class ModdedFieldTripDataOld
+    {
+        public List<FieldTripScoreOld> tripScores = new List<FieldTripScoreOld>();
+    }
+
+    [Serializable]
+    public class FieldTripScoreOld
+    {
+        public string minigame;
+        public int score;
+        public string name;
+
+        public FieldTripScoreOld(string minigame, int score, string name)
+        {
+            this.minigame = minigame;
+            this.score = score;
+            this.name = name;
+        }
+
+        public static FieldTripScore ConvertTo(FieldTripScoreOld score)
+        {
+            return new FieldTripScore(score.minigame, Convert.ToDouble(score.score), score.name);
+        }
+    }
+    #endregion
 
     public class ModdedFieldTripScoreManager : Singleton<ModdedFieldTripScoreManager>
     {
@@ -56,7 +85,7 @@ namespace ThumblysFieldTripsAPI.Registers
             while (list.Count < count)
             {
                 int index = 0;
-                int num = 0;
+                double num = 0;
                 for (int i = 0; i < scores.Count; i++)
                 {
                     if (scores[i].score > num)
@@ -83,7 +112,7 @@ namespace ThumblysFieldTripsAPI.Registers
             tripScores.Clear();
         }
 
-        public void AddScore(string minigame, int score, string name, bool greaterWins, out int rank)
+        public void AddScore(string minigame, double score, string name, bool greaterWins, out int rank)
         {
             bool flag = false;
             rank = -1;
@@ -121,12 +150,46 @@ namespace ThumblysFieldTripsAPI.Registers
             {
                 Directory.CreateDirectory(Application.persistentDataPath + "/Modded");
             }
-            string path = Application.persistentDataPath + "/Modded/FieldTripHighScores.hgh";
+            string oldPath = Application.persistentDataPath + "/Modded/FieldTripHighScores.hgh";
+            string path = Application.persistentDataPath + "/Modded/ModdedTripHighScores.hgh";
             SetDefaultsTrips();
-            if (File.Exists(path))
+            ModdedFieldTripData moddedFieldTripData = new ModdedFieldTripData();
+            if (File.Exists(oldPath))
+            {
+                Debug.Log("Old version of high scores found! trying to convert");
+                bool flag = true;
+                ModdedFieldTripDataOld oldModdedFieldTripData = new ModdedFieldTripDataOld();
+                try
+                {
+                    oldModdedFieldTripData = JsonConvert.DeserializeObject<ModdedFieldTripDataOld>(RijndaelEncryption.Decrypt(File.ReadAllText(oldPath), "99"));
+                }
+                catch
+                {
+                    flag = false;
+                }
+
+                if (flag)
+                {
+                    List<FieldTripScore> converted = new List<FieldTripScore>();
+                    foreach (FieldTripScoreOld tripScore in oldModdedFieldTripData.tripScores)
+                    {
+                        converted.Add(FieldTripScoreOld.ConvertTo(tripScore));
+                    }
+                    tripScores = converted;
+                    File.Delete(oldPath);
+                    Save();
+                    Debug.Log("Successfully loaded from old High Scores!");
+                }
+                else
+                {
+                    Debug.LogWarning("Old High scores file is corrupted. Trying to find new TripScores.");
+                    File.Delete(oldPath);
+                    Load();
+                }
+            }
+            else if (File.Exists(path))
             {
                 bool flag = true;
-                ModdedFieldTripData moddedFieldTripData = new ModdedFieldTripData();
                 try
                 {
                     moddedFieldTripData = JsonConvert.DeserializeObject<ModdedFieldTripData>(RijndaelEncryption.Decrypt(File.ReadAllText(path), "99"));
@@ -139,10 +202,7 @@ namespace ThumblysFieldTripsAPI.Registers
                 if (flag)
                 {
                     tripScores = moddedFieldTripData.tripScores;
-                    if (tripScores == null)
-                    {
-                        tripScores = new List<FieldTripScore>();
-                    }
+                    Debug.Log("Successfully loaded High Scores!");
                 }
                 else
                 {
@@ -163,7 +223,7 @@ namespace ThumblysFieldTripsAPI.Registers
             {
                 Directory.CreateDirectory(Application.persistentDataPath + "/Modded");
             }
-            string path = Application.persistentDataPath + "/Modded/FieldTripHighScores.hgh";
+            string path = Application.persistentDataPath + "/Modded/ModdedTripHighScores.hgh";
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -171,6 +231,7 @@ namespace ThumblysFieldTripsAPI.Registers
 
             ModdedFieldTripData moddedFieldTripData = new ModdedFieldTripData();
             moddedFieldTripData.tripScores = tripScores;
+            moddedFieldTripData.version = 2;
             File.WriteAllText(path, RijndaelEncryption.Encrypt(JsonConvert.SerializeObject(moddedFieldTripData), "99"));
             Debug.Log("High scores saved.");
         }

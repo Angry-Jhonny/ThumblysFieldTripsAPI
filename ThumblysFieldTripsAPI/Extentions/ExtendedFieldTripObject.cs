@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
+using MTM101BaldAPI.Components.Animation;
 
 namespace ThumblysFieldTripsAPI.Extentions
 {
     public class ExtendedFieldTripObject : FieldTripObject
     {
-        public Sprite idleSprite;
-        public Sprite talkSprite;
+        public SpriteAnimation talkAnimation;
     }
 }

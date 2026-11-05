@@ -1,13 +1,16 @@
 ﻿
 using HarmonyLib;
 using MTM101BaldAPI.AssetTools;
+using MTM101BaldAPI.Components;
+using MTM101BaldAPI.Components.Animation;
+using MTM101BaldAPI.Reflection;
 using MTM101BaldAPI.Registers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ThumblysFieldTripsAPI.Extentions;
-using ThumblysFieldTripsAPI.Patches;
 using ThumblysFieldTripsAPI.Helpers;
+using ThumblysFieldTripsAPI.Patches;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,7 +28,7 @@ namespace ThumblysFieldTripsAPI.Builders
 
         private List<MinigameSettings> _MinigamesToAdd = new List<MinigameSettings>();
         private List<MinigameSettings> _TutorialsToAdd = new List<MinigameSettings>();
-        private Sprite _TutorialBaldiSprite;
+        private SpriteAnimation _TutorBaldiTalkAnim;
         private List<GameObject> _ObjectsToAdd = new List<GameObject>();
         private List<GameObject> _ObjectsToToggle = new List<GameObject>();
 
@@ -54,11 +57,11 @@ namespace ThumblysFieldTripsAPI.Builders
         private static readonly FieldInfo _minigameTimeScale = AccessTools.Field(typeof(FieldTripBaseRoomFunction), "minigameTimeScale");
 
         /// <summary>
-        /// Builds the ExtendedFieldTripBaseRoomFunction.
+        /// Builds the FieldTripBaseRoomFunction.
         /// </summary>
-        public ExtendedFieldTripBaseRoomFunction Build()
+        public FieldTripBaseRoomFunction Build()
         {
-            ExtendedFieldTripBaseRoomFunction Function = _Gameobject.AddComponent<ExtendedFieldTripBaseRoomFunction>();
+            FieldTripBaseRoomFunction Function = _Gameobject.AddComponent<FieldTripBaseRoomFunction>();
 
             GameObject objectBase = new GameObject("ObjectBase");
             objectBase.transform.SetParent(_Gameobject.transform, objectBase.transform);
@@ -105,7 +108,7 @@ namespace ThumblysFieldTripsAPI.Builders
                 _ObjectsToToggle.Add(Trigger);
                 Trigger.transform.position = tutorial.TriggerPosition;
                 Trigger.name = "Minigame" + i + "Tutorial";
-                Trigger.GetComponentInChildren<SpriteRenderer>().sprite = _TutorialBaldiSprite;
+                Trigger.GetComponentInChildren<SpriteRenderer>().sprite = _TutorBaldiTalkAnim.frames[0].value;
 
                 Object.Destroy(Trigger.GetComponent<ClickableEventTrigger>());
                 MinigameStartClickable newTrigger = Trigger.AddComponent<MinigameStartClickable>();
@@ -117,11 +120,14 @@ namespace ThumblysFieldTripsAPI.Builders
             GameObject IntroBaldi = Object.Instantiate(FieldTripsAPI.assetMan.Get<GameObject>("IntroBaldi"), objectBase.transform);
             IntroBaldi.name = FieldTripsAPI.assetMan.Get<GameObject>("IntroBaldi").name;
             IntroBaldi.transform.position = _IntroPosition;
-            IntroBaldi.GetComponent<Animator>().enabled = true;
             _introAudioManager.SetValue(Function, IntroBaldi.GetComponent<AudioManager>());
             _audIntro.SetValue(Function, _IntroAudio);
             _ObjectsToToggle.Add(IntroBaldi.gameObject);
-            Function.introBaldiSwap = FieldTripSpriteSwap.AddTripSpriteSwap(IntroBaldi);
+            FakeAnimatorSimple fakeAnimator = IntroBaldi.gameObject.AddFakeAnimatorComponent<FakeAnimatorSimple>();
+            CustomSpriteRendererAnimator animator = fakeAnimator.gameObject.AddComponent<CustomSpriteRendererAnimator>();
+            animator.renderer = fakeAnimator.GetComponent<SpriteRenderer>();
+            animator.AddAnimation("CampIntro", _TutorBaldiTalkAnim);
+            fakeAnimator.simpleAnimator = animator;
 
             _objectBase.SetValue(Function, objectBase.transform);
             _objectToToggleAfterMinigame.SetValue(Function, _ObjectsToToggle.ToArray());
@@ -192,11 +198,22 @@ namespace ThumblysFieldTripsAPI.Builders
         }
 
         /// <summary>
-        /// Set the introduction baldi spawn location and audio.
+        /// Set the tutor baldi sprites.
         /// </summary>
+        [System.Obsolete("This function only sets the idle sprite, use SetTutorBaldiSprites")]
         public FieldTripRoomFunctionBuilder SetTutorialBaldiSprite(Sprite baldiSprite)
         {
-            _TutorialBaldiSprite = baldiSprite;
+            _TutorBaldiTalkAnim = new SpriteAnimation(new Sprite[] { baldiSprite }, 1);
+            return this;
+        }
+
+        /// <summary>
+        /// Set the tutor and tutorial baldi talk animation.
+        /// For the tutorial baldi it will use the first frame in the SpriteAnimation
+        /// </summary>
+        public FieldTripRoomFunctionBuilder SetTutorBaldiAnimation(SpriteAnimation talkAnim)
+        {
+            _TutorBaldiTalkAnim = talkAnim;
             return this;
         }
 

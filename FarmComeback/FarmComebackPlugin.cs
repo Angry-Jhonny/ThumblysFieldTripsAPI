@@ -1,97 +1,124 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
+using BunchOfFieldTrips.Editor;
+using BunchOfFieldTrips.Haystack;
+using BunchOfFieldTrips.Herding;
 using HarmonyLib;
-
 using MTM101BaldAPI;
 using MTM101BaldAPI.AssetTools;
+using MTM101BaldAPI.Components.Animation;
+using MTM101BaldAPI.ObjectCreation;
+using MTM101BaldAPI.Reflection;
 using MTM101BaldAPI.Registers;
 using MTM101BaldAPI.SaveSystem;
+using MTM101BaldAPI.UI;
 using PlusStudioLevelFormat;
 using PlusStudioLevelLoader;
-
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.AI;
-using MTM101BaldAPI.UI;
-using MTM101BaldAPI.Reflection;
-
 using ThumblysFieldTripsAPI;
-using ThumblysFieldTripsAPI.Extentions;
 using ThumblysFieldTripsAPI.Builders;
+using ThumblysFieldTripsAPI.Extentions;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
-using FarmComeback.Editor;
-using FarmComeback.Haystack;
-using MTM101BaldAPI.Components.Animation;
-
-namespace FarmComeback
+namespace BunchOfFieldTrips
 {
-    [BepInPlugin("thumbly.baldiplus.farmcomeback", "Farm Comeback", "1.2.2")]
+    [BepInPlugin("thumbly.baldiplus.bunchoffieldtrips", "Bunch of field trips", "1.3.0")]
 
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("thumbly.baldiplus.fieldtripAPI", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
 
-    public class FarmComebackPlugin : BaseUnityPlugin
+    public class BunchOfTripsPlugin : BaseUnityPlugin
     {
-        public static FarmComebackPlugin Instance { get; internal set; }
-
+        public static BunchOfTripsPlugin Instance { get; internal set; }
+        public static AssetManager assetMan = new AssetManager();
         public static Dictionary<string, Sprite> EditorIcons = new Dictionary<string, Sprite>();
 
-        public static string MinigameMidi = "Level_1_End";
+        public static string FarmMidi = "Level_1_End";
+        public static string WildWestMidi = "Level_1_End";
 
-        private SoundObject CreateSoundobject(Color color, SoundType type, string key, string name)
+        private readonly Vector2 vectorCenter = Vector2.one / 2;
+
+        private SoundObject CreateSoundobject(Color color, SoundType type, string key, params string[] paths)
         {
-            AudioClip clip = AssetLoader.AudioClipFromMod(this, name + ".wav");
+            AudioClip clip = AssetLoader.AudioClipFromMod(this, paths);
 
             SoundObject sound = ObjectCreators.CreateSoundObject(clip, key, type, color);
             sound.subtitle = key != "";
             return sound;
         }
 
-        private IEnumerator RegisterEverything()
+        private Sprite CreateSprite(Vector2 center, float pixelsPerUnit, params string[] paths)
         {
-            yield return 5;
-            yield return "FarmComeback : Loading Assets...";
+            return AssetLoader.SpriteFromMod(this, center, pixelsPerUnit, paths);
+        }
 
-            MinigameMidi = AssetLoader.MidiFromMod("FarmMinigame_1_1", this, "FarmMinigame_1_1.mid");
+        private Sprite[] CreateSprites(int width, int height, float pixelsPerUnit, Vector2 center, params string[] paths) => CreateSprites(new Vector2Int(width, height), pixelsPerUnit, center, paths);
 
-            Texture2D barnBody = AssetLoader.TextureFromMod(this, "BarnRedWood.png");
-            Texture2D BarnDoors = AssetLoader.TextureFromMod(this, "BarnDoors.png");
-            Texture2D barnBeams = AssetLoader.TextureFromMod(this, "BarnWhiteWood.png");
-            Texture2D barnRoof = AssetLoader.TextureFromMod(this, "BarnRoof.png");
+        private Sprite[] CreateSprites(Vector2Int tiling, float pixelsPerUnit, Vector2 center, params string[] paths)
+        {
+            return AssetLoader.SpritesFromSpritesheet(tiling.x, tiling.y, pixelsPerUnit, center, AssetLoader.TextureFromMod(this, paths));
+        }
 
-            Texture2D fenceTex = AssetLoader.TextureFromMod(this, "AnimalFence.png");
+        private IEnumerator RegisterFarm()
+        {
+            yield return 6;
+            yield return "BOFT : Loading Farm Assets...";
+            string root = "Farm";
 
-            Sprite FarmFlag = AssetLoader.SpriteFromMod(this, Vector2.right * 0.09375f, 16, "FarmFlag.png");
+            FarmMidi = AssetLoader.MidiFromMod("FarmMinigame_1_1", this, root, "FarmMinigame_1_1.mid");
 
-            Sprite HaystackBG0 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated00.png");
-            Sprite HaystackBG1 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated01.png");
-            Sprite HaystackBG2 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated02.png");
-            Sprite HaystackBG3 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated03.png");
-            Sprite HaystackBG4 = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "BackgroundAnimated04.png");
-            Sprite PlayerImage = AssetLoader.SpriteFromMod(this, Vector2.one / 2, 1, "Haystack", "PlayerHaystack.png");
+            Texture2D barnBody = AssetLoader.TextureFromMod(this, root, "BarnRedWood.png");
+            Texture2D BarnDoors = AssetLoader.TextureFromMod(this, root, "BarnDoors.png");
+            Texture2D barnBeams = AssetLoader.TextureFromMod(this, root, "BarnWhiteWood.png");
+            Texture2D barnRoof = AssetLoader.TextureFromMod(this, root, "BarnRoof.png");
 
-            Sprite[] HayImages = AssetLoader.SpritesFromSpritesheet(1, 4, 1, Vector2.one / 2, AssetLoader.TextureFromMod(this, "Haystack", "HayBales_Sheet.png"));
-            Sprite[] HayRotate = AssetLoader.SpritesFromSpritesheet(4, 4, 32, new Vector2(0.5f, 0.11f), AssetLoader.TextureFromMod(this, "HayRotate_Sheet.png"));
+            Texture2D fenceTex = AssetLoader.TextureFromMod(this, root, "AnimalFence.png");
 
-            Sprite[] FarmSheet = AssetLoader.SpritesFromSpritesheet(8, 5, 1, Vector2.one / 2, AssetLoader.TextureFromMod(this, "FarmSheet.png"));
+            Sprite FarmFlag = CreateSprite(Vector2.right * 0.09375f, 16, root, "FarmFlag.png");
+            Sprite AnimalFenceSign = CreateSprite(Vector2.right / 2, 32, root, "AnimalFenceSign.png");
+
+            Sprite HaystackBG0 = CreateSprite(vectorCenter, 1, root, "Haystack", "BackgroundAnimated00.png");
+            Sprite HaystackBG1 = CreateSprite(vectorCenter, 1, root, "Haystack", "BackgroundAnimated01.png");
+            Sprite HaystackBG2 = CreateSprite(vectorCenter, 1, root, "Haystack", "BackgroundAnimated02.png");
+            Sprite HaystackBG3 = CreateSprite(vectorCenter, 1, root, "Haystack", "BackgroundAnimated03.png");
+            Sprite HaystackBG4 = CreateSprite(vectorCenter, 1, root, "Haystack", "BackgroundAnimated04.png");
+            Sprite PlayerImage = CreateSprite(vectorCenter, 1, root, "Haystack", "PlayerHaystack.png");
+            Sprite[] HayImages = CreateSprites(1, 4, 1, vectorCenter, root, "Haystack", "HayBales_Sheet.png");
+
+            Sprite HerdingBG = CreateSprite(vectorCenter, 1, root, "Herding", "HerdingBG.png");
+            Sprite HerdingFence = CreateSprite(vectorCenter, 1, root, "Herding", "AnimalFences.png");
+            Sprite[] HerdingAnimals = CreateSprites(5, 2, 1, vectorCenter, root, "Herding", "AnimalsSheet.png");
+
+            Sprite[] HayRotate = CreateSprites(4, 4, 32, new Vector2(0.5f, 0.11f), root, "HayRotate_Sheet.png");
+            Sprite[] AnimalsBig = CreateSprites(5, 1, 16, Vector2.right / 2, root, "PenAnimals.png");
+
+            Sprite[] FarmSheet = CreateSprites(8, 5, 1, Vector2.one / 2, root, "FarmSheet.png");
             if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio"))
             {
-                EditorIcons.Add("Editor_FarmFlag", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_farmflag.png"));
-                EditorIcons.Add("Editor_Barn", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_barn.png"));
-                EditorIcons.Add("Editor_Hay", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_hay.png"));
-                EditorIcons.Add("Editor_Sign", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_sign.png"));
-                EditorIcons.Add("Editor_Fence", AssetLoader.SpriteFromMod(this, Vector2.zero, 1, "Editor", "object_fence.png"));
+                EditorIcons.Add("Editor_FarmFlag", CreateSprite(Vector2.zero, 1, root, "Editor", "object_farmflag.png"));
+                EditorIcons.Add("Editor_Barn", CreateSprite(Vector2.zero, 1, root, "Editor", "object_barn.png"));
+                EditorIcons.Add("Editor_Hay", CreateSprite(Vector2.zero, 1, root, "Editor", "object_hay.png"));
+                EditorIcons.Add("Editor_Sign", CreateSprite(Vector2.zero, 1, root, "Editor", "object_sign.png"));
+                EditorIcons.Add("Editor_Fence", CreateSprite(Vector2.zero, 1, root, "Editor", "object_fence.png"));
+                EditorIcons.Add("Editor_AnimalSign", CreateSprite(Vector2.zero, 1, root, "Editor", "object_animalsign.png"));
             }
 
-            SoundObject farmIntro = CreateSoundobject(Color.green, SoundType.Voice, "Vfx_BAL_Intro_Farm", "BAL_Intro_Farm");
-            SoundObject farmEnterIntro = CreateSoundobject(Color.green, SoundType.Voice, "Vfx_BAL_FarmIntro_1", "BAL_FarmIntro");
+            SoundObject farmIntro = CreateSoundobject(Color.green, SoundType.Voice, "Vfx_BAL_Intro_Farm", root, "BAL_Intro_Farm.wav");
+            SoundObject farmEnterIntro = CreateSoundobject(Color.green, SoundType.Voice, "Vfx_BAL_FarmIntro_1", root, "BAL_FarmIntro.wav");
+
+            SoundObject AnimalsLoop = CreateSoundobject(Color.white, SoundType.Effect, "", root, "AnimalsLoop.wav");
+            SoundObject Animal_Chicken = CreateSoundobject(Color.white, SoundType.Effect, "", root, "Herding", "Animal_Chicken.wav");
+            SoundObject Animal_Cow = CreateSoundobject(Color.white, SoundType.Effect, "", root, "Herding", "Animal_Cow.wav");
+            SoundObject Animal_Pig = CreateSoundobject(Color.white, SoundType.Effect, "", root, "Herding", "Animal_Pig.wav");
+            SoundObject Animal_Sheep = CreateSoundobject(Color.white, SoundType.Effect, "", root, "Herding", "Animal_Sheep.wav");
+            SoundObject Animal_Gorilla = CreateSoundobject(Color.white, SoundType.Effect, "", root, "Herding", "Animal_Gorilla.wav");
 
             Sprite[] farmTalkSprites = new Sprite[]
             {
@@ -100,17 +127,22 @@ namespace FarmComeback
             };
 
             List<Sprite> HaystackTutorialSprites = new List<Sprite>();
-            foreach (string path in Directory.GetFiles(Path.Combine(AssetLoader.GetModPath(this), "Haystack_TutPics")))
+            foreach (string path in Directory.GetFiles(Path.Combine(AssetLoader.GetModPath(this), root, "Haystack_TutPics")))
             {
                 HaystackTutorialSprites.Add(AssetLoader.SpriteFromFile(path, Vector2.one / 2, 1));
             }
 
-            yield return "FarmComeback : Loading Objects...";
+            yield return "BOFT : Loading Farm Objects...";
 
             GameObject FarmFlagObj = Instantiate(AssetFinder.FindOfTypeWithName<GameObject>("Plant", true));
             FarmFlagObj.gameObject.name = "FarmFlag";
             FarmFlagObj.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
             FarmFlagObj.GetComponentInChildren<SpriteRenderer>().sprite = FarmFlag;
+
+            GameObject FenceSignObj = Instantiate(AssetFinder.FindOfTypeWithName<GameObject>("Plant", true));
+            FenceSignObj.gameObject.name = "AnimalFenceSign";
+            FenceSignObj.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
+            FenceSignObj.GetComponentInChildren<SpriteRenderer>().sprite = AnimalFenceSign;
 
             GameObject HayObject = Instantiate(AssetFinder.FindOfTypeWithName<GameObject>("Plant", true).GetComponentInChildren<SpriteRenderer>().gameObject);
             HayObject.gameObject.name = "HayObject";
@@ -143,7 +175,7 @@ namespace FarmComeback
                     { "BarnBeams", BarnBeamsMat },
                     { "BarnRoof", BarnRoofMat },
                     { "BarnDoor", BarnDoorMat }
-                }, "Barn.obj");
+                }, "Farm", "Barn.obj");
             BarnModel.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
             BarnModel.transform.localScale = Vector3.one * 3;
             BoxCollider collider = BarnModel.AddComponent<BoxCollider>();
@@ -174,32 +206,25 @@ namespace FarmComeback
 
             LevelLoaderPlugin.Instance.basicObjects.Add("Barn", BarnModel);
             LevelLoaderPlugin.Instance.basicObjects.Add("FarmFlag", FarmFlagObj);
+            LevelLoaderPlugin.Instance.basicObjects.Add("AnimalSign", FenceSignObj);
             LevelLoaderPlugin.Instance.basicObjects.Add("HayObject", HayObject);
             LevelLoaderPlugin.Instance.basicObjects.Add("AnimalFence", FenceObject);
             LevelLoaderPlugin.Instance.basicObjects.Add("SoonSign", AssetFinder.FindOfTypeWithName<Transform>("Sign0", true).gameObject);
 
-            yield return "FarmComeback : Loading Room Asset...";
+            yield return "BOFT : Loading Farm Hub Asset...";
 
-            Debug.Log("Loading Hub Room...");
-
-            BinaryReader reader = new BinaryReader(File.OpenRead(Path.Combine(AssetLoader.GetModPath(this), "Room_FarmHub.rbpl")));
+            BinaryReader reader = new BinaryReader(File.OpenRead(Path.Combine(AssetLoader.GetModPath(this), "Farm", "Room_FarmHub.rbpl")));
             BaldiRoomAsset formatAsset = BaldiRoomAsset.Read(reader);
             reader.Close();
             RoomAsset farmHubRoom = LevelImporter.CreateRoomAsset(formatAsset);
             farmHubRoom.lightPre = LevelLoaderPlugin.Instance.lightTransforms["null"];
             farmHubRoom.category = RoomCategory.FieldTrip;
             farmHubRoom.type = RoomType.Null;
-            farmHubRoom.name = "Room_FarmHubNew";
-            farmHubRoom.name = "Room_FarmHubNew";
-
-            Debug.Log("Instantiating Farm Function Container...");
 
             RoomFunctionContainer farmContainer = Instantiate<RoomFunctionContainer>(farmHubRoom.roomFunctionContainer);
             farmContainer.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
             farmContainer.name = "FarmHubRoomFunction";
             farmHubRoom.roomFunctionContainer = farmContainer;
-
-            Debug.Log("Building Room Function...");
 
             FieldTripLoot loot = new FieldTripLoot();
 
@@ -264,9 +289,11 @@ namespace FarmComeback
                 BAL_Farm_Talk3.Add(FarmSheet[i]);
             }
 
+            yield return "BOFT : Loading Farm Minigames...";
+
             MinigameTutorial HaystackTutorial = new MinigameTutorialBuilder()
                 .SetName("MinigameTutorial_Haystack")
-                .SetMidi(MinigameMidi)
+                .SetMidi(FarmMidi)
                 .AddScreen(new TutorialScreenInfo(HaystackTutorialSprites[0], new Vector3(0, -32, 0.75f), "Mgm_Haystack_Tut1"))
                 .AddScreen(new TutorialScreenInfo(HaystackTutorialSprites[1], new Vector3(-60, 110, 0.5f), "Mgm_Haystack_Tut2"))
                 .AddScreen(new TutorialScreenInfo(HaystackTutorialSprites[2], new Vector3(-100, -160, 1f), "Mgm_Haystack_Tut3"))
@@ -279,10 +306,10 @@ namespace FarmComeback
                 .AddTutorAnimation("BAL_Farm_Talk3", new SpriteAnimation(BAL_Farm_Talk3.ToArray(), 0.75f))
                 .Build();
 
-            MinigameBase HaystackMinigame = new MinigameBaseBuilder<Minigame_Haystack>()
+            MinigameBase HaystackMinigame = new MinigameBaseBuilder<Minigame_Haystack>(Info)
                 .SetName("Minigame_Haystack")
                 .SetTitle("Mgm_Haystack_Title", "Mgm_Haystack_Desc")
-                .SetMusic(MinigameMidi)
+                .SetMusic(FarmMidi)
                 .SetEndText("Mgm_Haystack_Win", "Mgm_Haystack_Lose")
                 .SetEnum("Haystack")
                 .Build();
@@ -313,28 +340,164 @@ namespace FarmComeback
 
 
 
-            MinigameBase HerdingMinigame = new MinigameBaseBuilder<Minigame_Herding>()
+            MinigameBase HerdingMinigame = new MinigameBaseBuilder<Minigame_Herding>(Info)
                 .SetName("Minigame_Herding")
                 .SetTitle("Mgm_Herding_Title", "Mgm_Herding_Desc")
-                .SetMusic(MinigameMidi)
+                .SetMusic(FarmMidi)
                 .SetEndText("Mgm_Herding_Win", "Mgm_Herding_Lose")
                 .SetEnum("Herding")
                 .NeedsCursor()
                 .Build();
             Minigame_Herding Herding = HerdingMinigame.GetComponent<Minigame_Herding>();
+            gameRect = HerdingMinigame.transform.Find("GameCanvas").Find("Game");
+            gameRect.Find("BG").GetComponent<Image>().sprite = HerdingBG;
+            Herding.gameRect = gameRect;
+            GameObject animalsRectObject  = new GameObject("AnimalsRect");
+            RectTransform animalsRect = animalsRectObject.AddComponent<RectTransform>();
+            animalsRect.SetParent(gameRect);
+            animalsRect.gameObject.transform.localScale = Vector3.one;
+            Herding.animalRect = animalsRect;
+            Image fenceImage = new GameObject("FenceImage").AddComponent<Image>();
+            fenceImage.gameObject.layer = LayerMask.NameToLayer("UI");
+            fenceImage.transform.SetParent(gameRect);
+            fenceImage.sprite = HerdingFence;
+            fenceImage.gameObject.transform.localScale = Vector3.one;
+            fenceImage.rectTransform.sizeDelta = new Vector2(480, 360);
+            fenceImage.rectTransform.anchoredPosition = new Vector2(240, 180);
+            fenceImage.raycastTarget = false;
+            hud = Instantiate(FieldTripsAPI.minigameHudPref, gameRect);
+            Herding.minigameHud = hud;
+            Image sector1Sign = UIHelpers.CreateImage(HerdingAnimals[0], fenceImage.transform, new Vector3(-21, 162, 0), false);
+            Image sector2Sign = UIHelpers.CreateImage(HerdingAnimals[0], fenceImage.transform, new Vector3(172, 162, 0), false);
+            Image sector3Sign = UIHelpers.CreateImage(HerdingAnimals[0], fenceImage.transform, new Vector3(-21, 29, 0), false);
+            Image sector4Sign = UIHelpers.CreateImage(HerdingAnimals[0], fenceImage.transform, new Vector3(172, 29, 0), false);
+            sector1Sign.raycastTarget = false;
+            sector2Sign.raycastTarget = false;
+            sector3Sign.raycastTarget = false;
+            sector4Sign.raycastTarget = false;
+            Herding.sectorSignImages.Add(sector1Sign);
+            Herding.sectorSignImages.Add(sector2Sign);
+            Herding.sectorSignImages.Add(sector3Sign);
+            Herding.sectorSignImages.Add(sector4Sign);
+            GameObject animalsSFX = new GameObject("AnimalsSFX");
+            animalsSFX.transform.SetParent(gameRect.transform);
+            AudioSource source = animalsSFX.AddComponent<AudioSource>();
+            source.dopplerLevel = 0;
+            source.playOnAwake = false;
+            AudioManager animalAmbiance = animalsSFX.AddComponent<AudioManager>();
+            animalAmbiance.useUnscaledPitch = true;
+            animalAmbiance.ignoreListenerPause = true;
+            animalAmbiance.positional = false;
+            animalAmbiance.ReflectionSetVariable("disableSubtitles", true);
+            animalAmbiance.volumeModifier = 0.5f;
+            animalAmbiance.audioDevice = source;
+            Herding.animalAmbiance = animalAmbiance;
+            Herding.aud_animals = AnimalsLoop;
+            HerdingMinigame.AddDisableOnPauseObject(animalsSFX);
+            Herding.aud_correct = AssetFinder.FindOfTypeWithName<SoundObject>("YTPPickup_0", true);
+            Herding.aud_incorrect = AssetFinder.FindOfTypeWithName<SoundObject>("Activity_Incorrect", true);
 
-            ExtendedFieldTripBaseRoomFunction farmFunction = new FieldTripRoomFunctionBuilder()
+
+            Image animalPref = new GameObject("FarmAnimal").AddComponent<Image>();
+            animalPref.transform.SetParent(MTM101BaldiDevAPI.prefabTransform);
+            animalPref.gameObject.tag = "Button";
+            animalPref.gameObject.layer = LayerMask.NameToLayer("UI");
+            animalPref.rectTransform.sizeDelta = Vector2.one * 20;
+            animalPref.gameObject.transform.localScale = Vector3.one;
+            animalPref.sprite = HerdingAnimals[2];
+            BaseAnimalButton animalButton = animalPref.gameObject.AddComponent<BaseAnimalButton>();
+            animalButton.image = animalPref;
+            Herding.farmAnimalPrefab = animalButton;
+
+            Minigame_Herding.possibleAnimals.AddRange(new AnimalInfo[]
+            {
+                new AnimalInfo()
+                {
+                    type = AnimalType.Chicken,
+                    animal = HerdingAnimals[0],
+                    animalFake = HerdingAnimals[5],
+                    sound = Animal_Chicken
+                },
+                new AnimalInfo()
+                {
+                    type = AnimalType.Cow,
+                    animal = HerdingAnimals[1],
+                    animalFake = HerdingAnimals[6],
+                    sound = Animal_Cow
+                },
+                new AnimalInfo()
+                {
+                    type = AnimalType.Pig,
+                    animal = HerdingAnimals[2],
+                    animalFake = HerdingAnimals[7],
+                    sound = Animal_Pig
+                },
+                new AnimalInfo()
+                {
+                    type = AnimalType.Sheep,
+                    animal = HerdingAnimals[3],
+                    animalFake = HerdingAnimals[8],
+                    sound = Animal_Sheep
+                },
+                new AnimalInfo()
+                {
+                    type = AnimalType.Gorilla,
+                    animal = HerdingAnimals[4],
+                    animalFake = HerdingAnimals[9],
+                    sound = Animal_Gorilla
+                }
+            });
+
+            GameObject plantPref = AssetFinder.FindOfTypeWithName<GameObject>("Plant", true);
+
+            GameObject farmAnimalsObject = new GameObject("FarmAnimals");
+            farmAnimalsObject.AddComponent<SphereCollider>().radius = 5f;
+            farmAnimalsObject.transform.position = new Vector3(170, 0, 100);
+            source = farmAnimalsObject.AddComponent<AudioSource>();
+            source.dopplerLevel = 0;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.maxDistance = 70;
+            source.minDistance = 25;
+            source.playOnAwake = false;
+            source.spatialBlend = 1;
+            PropagatedAudioManager farmAnimalsAudio = farmAnimalsObject.AddComponent<PropagatedAudioManager>();
+            farmAnimalsAudio.audioDevice = source;
+            farmAnimalsAudio.ReflectionSetVariable("disableSubtitles", true);
+            farmAnimalsAudio.ReflectionSetVariable("soundOnStart", new SoundObject[] { AnimalsLoop });
+            farmAnimalsAudio.ReflectionSetVariable("loopOnStart", true);
+            GameObject animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(3, 0, 10);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[1];
+            animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(-12, 0, 15);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[0];
+            animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(-15, 0, 5);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[3];
+            animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(-7, 0, -5);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[2];
+            animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(10, 0, -10);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[3];
+            animal = Instantiate(plantPref, farmAnimalsObject.transform);
+            animal.transform.localPosition = new Vector3(-15, 0, -15);
+            animal.GetComponentInChildren<SpriteRenderer>().sprite = AnimalsBig[4];
+            farmAnimalsObject.SetActive(false);
+
+            FieldTripBaseRoomFunction farmFunction = new FieldTripRoomFunctionBuilder()
                 .SetBusTransform(new Vector3(100, 0, 15), Direction.South)
                 .SetFunctionGameobject(farmContainer.gameObject) // Required
                 .SetIntroTutor(new Vector3(105, 4, 35), farmEnterIntro) // Required
-                .SetTutorialBaldiSprite(farmTalkSprites[0]) // Required (if there is a AddMinigameTutorialBaldi)
+                .SetTutorBaldiAnimation(new SpriteAnimation(new Sprite[] { farmTalkSprites[0], farmTalkSprites[1] }, 1)) // Required
                 .AddMinigameTrigger(new MinigameSettings(HaystackMinigame, new Vector3(116, 5, 150)))
                 .AddMinigameTutorialBaldi(HaystackTutorial, new Vector3(125, 5, 144))
-                //.AddMinigameTrigger(new MinigameSettings(HerdingMinigame, new Vector3(145, 5, 100)))
-                //.AddMinigameTutorialBaldi(HaystackTutorial, new Vector3(145, 5, 84))
+                .AddMinigameTrigger(new MinigameSettings(HerdingMinigame, new Vector3(145, 5, 100)))
+                .AddMinigameTutorialBaldi(HaystackTutorial, new Vector3(145, 5, 84))
                 .SetLootTable(loot) // Required
                 .SetItemSettings(8, 3) // Required
                 .SetPitstopItemOffset(new Vector3(-225.25f, 0, 13.5f)) // Required (if there is a Minigame)
+                .AddObjectToToggle(farmAnimalsObject)
                 .Build();
 
             farmContainer.AddFunction(farmFunction);
@@ -346,12 +509,12 @@ namespace FarmComeback
                 position = new IntVector2(0, 16)
             };
 
-            yield return "FarmComeback : Loading Field Trip...";
+            yield return "BOFT : Creating Farm Field Trip...";
 
             ExtendedFieldTripObject farmTrip = new FieldTripBuilder()
                 .SetName("Farm")
                 .SetEnum(FieldTrips.Farm)
-                .SetBaldiSprites(farmTalkSprites)
+                .SetBaldiAnimation("FarmIntro", farmTalkSprites[0], farmTalkSprites[1])
                 .SetSound(farmIntro)
                 .SetSkybox(AssetFinder.FindOfTypeWithName<Cubemap>("Cubemap_Twilight", true))
                 .SetHubRoom(farmHubRoomPlacementData)
@@ -377,20 +540,20 @@ namespace FarmComeback
             vanillaFarmScene.skybox = AssetFinder.FindOfTypeWithName<Cubemap>("Cubemap_DayStandard", true);
 
 
-            yield return "FarmComeback : Loading Level Editor...";
+            yield return "BOFT : Adding Farm to Level Editor...";
             if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio")) { EditorSupport.AddEditorContent(); }
         }
 
         void Awake()
         {
             Instance = this;
-            Harmony harmony = new Harmony("thumbly.baldiplus.farmcomeback");
+            Harmony harmony = new Harmony("thumbly.baldiplus.bunchoffieldtrips");
 
             ModdedSaveGame.AddSaveHandler(Info);
 
             harmony.PatchAllConditionals();
 
-            LoadingEvents.RegisterOnAssetsLoaded(base.Info, RegisterEverything(), LoadingEventOrder.Pre);
+            LoadingEvents.RegisterOnAssetsLoaded(base.Info, RegisterFarm(), LoadingEventOrder.Pre);
             AssetLoader.LocalizationFromMod(this);
         }
     }

@@ -1,6 +1,9 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using MTM101BaldAPI;
 using MTM101BaldAPI.AssetTools;
+using MTM101BaldAPI.ObjectCreation;
+using MTM101BaldAPI.Registers;
 using PicnicPanic;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,6 +16,8 @@ namespace ThumblysFieldTripsAPI.Builders
 {
     public class MinigameBaseBuilder<T> where T : Minigame
     {
+        private PluginInfo info;
+
         private LoopingSoundObject _music = AssetFinder.FindOfTypeWithName<LoopingSoundObject>("Mus_Party_BGM", true);
         private string _midi = "CampMinigame_1_1";
 
@@ -35,6 +40,8 @@ namespace ThumblysFieldTripsAPI.Builders
 
         private MinigameName _type;
         private string _enumName = "Unknown";
+
+        private MinigameFlags _flags;
         
         private static FieldInfo _minigame = AccessTools.Field(typeof(MinigameBase), "minigame");
         private static FieldInfo _minigameController = AccessTools.Field(typeof(MinigameBase), "minigameController");
@@ -53,6 +60,11 @@ namespace ThumblysFieldTripsAPI.Builders
         private static FieldInfo _audWin = AccessTools.Field(typeof(MinigameBase), "audWin");
         private static FieldInfo _audLose = AccessTools.Field(typeof(MinigameBase), "audLose");
         private static FieldInfo _audHighScore = AccessTools.Field(typeof(MinigameBase), "audHighScore");
+
+        public MinigameBaseBuilder(PluginInfo info)
+        {
+            this.info = info;
+        }
 
         /// <summary>
         /// Builds the MinigameBase.
@@ -87,7 +99,14 @@ namespace ThumblysFieldTripsAPI.Builders
 
             MinigameHighScoreTable table = (MinigameHighScoreTable)_scoreTable.GetValue(minigame);
             ModdedMinigameHighScoreTable moddedTable = table.gameObject.AddComponent<ModdedMinigameHighScoreTable>();
-            moddedTable.scoringType = _scoringType;
+            if (_scoringType.IsTimeScoring())
+            {
+                _flags |= MinigameFlags.TimeScoring;
+                if (!(minigameComponent is ExtendedMinigame))
+                {
+                    throw new System.Exception("The minigame " + _minigameName + " is using \"Minigame\" instead of \"ExtendedMinigame\".");
+                }
+            }
             moddedTable.Setup(table);
 
             _minigame.SetValue(minigame, minigameType);
@@ -101,12 +120,18 @@ namespace ThumblysFieldTripsAPI.Builders
             _useCursor.SetValue(minigame, _usesCursor);
             _skipTitle.SetValue(minigame, _skipsTitle);
 
+            if (_usesCursor) { _flags |= MinigameFlags.UsesCursor; }
+            if (_skipsTitle) { _flags |= MinigameFlags.SkipsTitle; }
+
             _disableOnPause.SetValue(minigame, new GameObject[0]);
 
             _audStart.SetValue(minigame, _startAudio);
             _audWin.SetValue(minigame, _winAudio);
             _audLose.SetValue(minigame, _loseAudio);
             _audHighScore.SetValue(minigame, _highAudio);
+
+            MinigameMetadata minigameMetadata = minigameComponent.AddMeta(info.Instance, _flags);
+            minigameMetadata.scoreType = _scoringType;
 
             return minigame;
         }
@@ -224,7 +249,6 @@ namespace ThumblysFieldTripsAPI.Builders
         public MinigameBaseBuilder<T> SetScoringType(ScoringType scoringType)
         {
             _scoringType = scoringType;
-            GameObject o = new GameObject();
             return this;
         }
     }

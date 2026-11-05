@@ -8,10 +8,14 @@ namespace ThumblysFieldTripsAPI
 {
     public enum ScoringType
     {
+        SlowestTime,
+        FastestTime,
         HighestScore,
-        HighestTime,
         LowestScore,
-        LowestTime,
+        [Obsolete("please use SlowestTime")]
+        HighestTime = SlowestTime,
+        [Obsolete("please use FastestTime")]
+        LowestTime = FastestTime
     }
 
     public static class ScoringTypeExtentions
@@ -23,7 +27,7 @@ namespace ThumblysFieldTripsAPI
             {
                 case ScoringType.HighestScore:
                     flag = true; break;
-                case ScoringType.HighestTime:
+                case ScoringType.SlowestTime:
                     flag = true; break;
             }
             return flag;
@@ -34,9 +38,9 @@ namespace ThumblysFieldTripsAPI
             bool flag = false;
             switch (type)
             {
-                case ScoringType.HighestTime:
+                case ScoringType.SlowestTime:
                     flag = true; break;
-                case ScoringType.LowestTime:
+                case ScoringType.FastestTime:
                     flag = true; break;
             }
             return flag;

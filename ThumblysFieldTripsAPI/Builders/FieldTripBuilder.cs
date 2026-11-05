@@ -1,16 +1,8 @@
 ﻿using ThumblysFieldTripsAPI.Extentions;
-using BepInEx;
 using MTM101BaldAPI;
-using MTM101BaldAPI.AssetTools;
-using MTM101BaldAPI.ObjectCreation;
-using MTM101BaldAPI.Registers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using MTM101BaldAPI.Components.Animation;
 
 namespace ThumblysFieldTripsAPI.Builders
 {
@@ -26,8 +18,8 @@ namespace ThumblysFieldTripsAPI.Builders
         private Direction _spawnDirection;
         private Vector3 _spawnPoint;
         private string _nameKey = "Unnamed";
-        private Sprite _baldiIdle;
-        private Sprite _baldiTalk;
+        private string _animName = "";
+        private SpriteAnimation _baldiAnimation;
 
         /// <summary>
         /// Builds the ExtendedFieldTripObject.
@@ -44,15 +36,20 @@ namespace ThumblysFieldTripsAPI.Builders
             {
                 fieldTripType = EnumExtensions.ExtendEnum<FieldTrips>(_enumName);
             }
+            if (_animName == string.Empty)
+            {
+                _animName = fieldTripType.ToStringExtended() + "Intro_" + ((int)fieldTripType).ToString();
+            }
             fieldTripObject.trip = fieldTripType;
             fieldTripObject.intro = _introAudio;
             fieldTripObject.skybox = _skybox;
             fieldTripObject.spawnDirection = _spawnDirection;
             fieldTripObject.spawnPoint = _spawnPoint;
-            fieldTripObject.animationName = "CampIntro";
+            fieldTripObject.animationName = _animName;
             fieldTripObject.nameKey = "Level_Trip_" + _nameKey;
-            fieldTripObject.idleSprite = _baldiIdle;
-            fieldTripObject.talkSprite = _baldiTalk;
+            fieldTripObject.talkAnimation = _baldiAnimation;
+
+            FieldTripsAPI.fieldTripEntranceAnimators.ForEach(x => x.AddAnimation(fieldTripObject.animationName, _baldiAnimation));
 
             return fieldTripObject;
         }
@@ -147,20 +144,52 @@ namespace ThumblysFieldTripsAPI.Builders
         /// <summary>
         /// Sets the Baldi idle and talk sprites.
         /// </summary>
-        public FieldTripBuilder SetBaldiSprites(Sprite idle, Sprite talk)
-        {
-            _baldiIdle = idle;
-            _baldiTalk = talk;
-            return this;
-        }
+        [Obsolete("Use SetBaldiAnimation instead.")]
+        public FieldTripBuilder SetBaldiSprites(Sprite idle, Sprite talk) => SetBaldiAnimation(idle, talk);
 
         /// <summary>
         /// Sets the Baldi idle and talk sprites.
         /// </summary>
-        public FieldTripBuilder SetBaldiSprites(Sprite[] sprites)
+        [Obsolete("Use SetBaldiAnimation instead.")]
+        public FieldTripBuilder SetBaldiSprites(Sprite[] sprites) => SetBaldiAnimation(sprites[0], sprites[1]);
+
+        /// <summary>
+        /// Sets the Baldi talk animation.
+        /// </summary>
+        public FieldTripBuilder SetBaldiAnimation(Sprite idle, Sprite talk)
         {
-            _baldiIdle = sprites[0];
-            _baldiTalk = sprites[1];
+            _baldiAnimation = new SpriteAnimation(new Sprite[] { idle, talk }, 1);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the Baldi talk animation.
+        /// /// NOTE: Setting a custom animation name could cause other mods with the same key to break.
+        /// </summary>
+        public FieldTripBuilder SetBaldiAnimation(string animName, Sprite idle, Sprite talk)
+        {
+            _animName = animName;
+            _baldiAnimation = new SpriteAnimation(new Sprite[] { idle, talk }, 1);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the Baldi talk animation.
+        /// </summary>
+        public FieldTripBuilder SetBaldiAnimation(SpriteAnimation animation)
+        {
+            _baldiAnimation = animation;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the Baldi talk animation.
+        /// NOTE: Setting a custom animation name could cause other mods with the same key to break.
+        /// </summary>
+        public FieldTripBuilder SetBaldiAnimation(string animName, SpriteAnimation animation)
+        {
+            _animName = animName;
+            _baldiAnimation = animation;
             return this;
         }
     }

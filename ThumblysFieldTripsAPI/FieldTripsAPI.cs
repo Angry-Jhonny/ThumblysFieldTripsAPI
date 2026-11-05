@@ -3,22 +3,28 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using MTM101BaldAPI;
 using MTM101BaldAPI.AssetTools;
+using MTM101BaldAPI.Components;
+using MTM101BaldAPI.Components.Animation;
+using MTM101BaldAPI.Reflection;
 using MTM101BaldAPI.Registers;
 using MTM101BaldAPI.SaveSystem;
+using MTM101BaldAPI.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using ThumblysFieldTripsAPI.Builders;
 using ThumblysFieldTripsAPI.Extentions;
 using ThumblysFieldTripsAPI.Helpers;
 using ThumblysFieldTripsAPI.Registers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ThumblysFieldTripsAPI
 {
 
-    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.3.1")]
+    [BepInPlugin("thumbly.baldiplus.fieldtripAPI", "Thumbly's Field Trip API", "1.4.0")]
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     public class FieldTripsAPI : BaseUnityPlugin
     {
@@ -34,7 +40,11 @@ namespace ThumblysFieldTripsAPI
         private static FieldInfo _tierTwoTrips = AccessTools.Field(typeof(PitstopGameManager), "tierTwoTrips");
         private static FieldInfo _tierThreeTrips = AccessTools.Field(typeof(PitstopGameManager), "tierThreeTrips");
 
-        internal static string TimeScoreFormat = "{0}:{1}.{2}";
+        public static MinigameMetaStorage minigamesMetadata = new MinigameMetaStorage();
+
+        public static List<CustomSpriteRendererAnimator> fieldTripEntranceAnimators = new List<CustomSpriteRendererAnimator>();
+
+        internal static string TimeScoreFormat = "{0:00}:{1:00}.{2:000}";
         internal static bool loadingMods = true;
 
         public static MinigameHUD minigameHudPref {  get; private set; }
@@ -66,7 +76,7 @@ namespace ThumblysFieldTripsAPI
             TripScenes.Add(new TripMenuSettings(scene, nameKey, descKey));
         }
 
-        private IEnumerator RegisterFieldTrips()
+        private IEnumerator RegisterFinal()
         {
             yield return 2;
             yield return "FTAPI | Adding Field Trips to Generator...";
@@ -107,17 +117,32 @@ namespace ThumblysFieldTripsAPI
             _tierTwoTrips.SetValue(pitstop, tierTwo.ToArray());
             _tierThreeTrips.SetValue(pitstop, tierThree.ToArray());
 
-            yield return "FTAPI | Loading Field trip High Scores...";
+            yield return "FTAPI | Loading Final Changes...";
 
-            Debug.Log("Loading Custom field trips High scores");
+            fieldTripEntranceAnimators.ForEach(x => x.AddAnimation("CampIntro", new SpriteAnimation(new Sprite[]
+            {
+                AssetFinder.FindOfTypeWithName<Sprite>("CampingTalkSheet_0", true),
+                AssetFinder.FindOfTypeWithName<Sprite>("CampingTalkSheet_1", true)
+            }, 1)));
+
             Singleton<ModdedFieldTripScoreManager>.Instance.Load();
-            Debug.Log("Successfully loaded High Scores!");
         }
 
         private IEnumerator GatherAssets()
         {
             yield return 1;
             yield return "FTAPI | Gathering Resources";
+
+            MinigameMetadata CampfireMetadata = AssetFinder.FindOfTypeWithName<MinigameBase>("Minigame_CampfireFrenzy", true).GetComponent<Minigame>().AddMeta(this, MinigameFlags.None);
+            MinigameMetadata PicnicMetadata = AssetFinder.FindOfTypeWithName<MinigameBase>("Minigame_PicnicPanic", true).GetComponent<Minigame>().AddMeta(this, MinigameFlags.None);
+
+            FieldTripEntranceRoomFunction fieldTripEntrance = AssetFinder.FindOfTypeWithName<FieldTripEntranceRoomFunction>("FieldTripEntranceRoomFunction", true);
+            Animator animatorObject = ((Animator)fieldTripEntrance.ReflectionGetVariable("animator"));
+            FakeAnimatorSimple fakeAnimator = animatorObject.gameObject.AddFakeAnimatorComponent<FakeAnimatorSimple>();
+            CustomSpriteRendererAnimator animator = fakeAnimator.gameObject.AddComponent<CustomSpriteRendererAnimator>();
+            animator.renderer = fakeAnimator.GetComponent<SpriteRenderer>();
+            fakeAnimator.simpleAnimator = animator;
+            fieldTripEntranceAnimators.Add(animator);
 
             TripScenes.Add(new TripMenuSettings(AssetFinder.FindOfTypeWithName<SceneObject>("Camping", true), "But_Trip_Camp", "Men_CampTrip"));
             TripScenes.Add(new TripMenuSettings(AssetFinder.FindOfTypeWithName<SceneObject>("Farm", true), "But_Trip_Farm", "Men_FarmTrip"));
@@ -130,7 +155,17 @@ namespace ThumblysFieldTripsAPI
             MinigameBase minigameBase = AssetFinder.FindOfTypeWithName<MinigameBase>("Minigame_PicnicPanic", true);
             MinigameTutorial TutorialBase = AssetFinder.FindOfTypeWithName<MinigameTutorial>("MinigameTutorial_CampfireFrenzy", true);
 
-            minigameHudPref = minigameBase.transform.Find("GameCanvas").Find("Game").Find("MinigameHUD").GetComponent<MinigameHUD>();
+            Sprite[] dialSprite = AssetLoader.SpritesFromSpritesheet(8, 4, 1, Vector2.one / 2, AssetLoader.TextureFromMod(this, "TimerSheet.png"));
+            minigameHudPref = Instantiate<MinigameHUD>(minigameBase.transform.Find("GameCanvas").Find("Game").Find("MinigameHUD").GetComponent<MinigameHUD>(), MTM101BaldiDevAPI.prefabTransform);
+            minigameHudPref.gameObject.name = "ModdedMinigameHUD";
+            minigameHudPref.gameObject.AddComponent<MinigameCountdown>();
+
+            Image dialImage = UIHelpers.CreateImage(dialSprite[0], minigameHudPref.transform, new Vector3(16, 24, 0), true);
+            minigameHudPref.GetComponent<MinigameCountdown>().dialImage = dialImage;
+            minigameHudPref.GetComponent<MinigameCountdown>().dialSprite = dialSprite;
+            dialImage.transform.localPosition = new Vector3(15, 320, 0);
+            dialImage.enabled = false;
+            dialImage.raycastTarget = false;
 
             assetMan.Add<MinigameBase>("MinigameBase", minigameBase);
             assetMan.Add<MinigameTutorial>("TutorialBase", TutorialBase);
@@ -150,7 +185,7 @@ namespace ThumblysFieldTripsAPI
 
         private void Awake()
         {
-            Harmony harmony = new Harmony("thumbly.baldiplus.farmcomeback");
+            Harmony harmony = new Harmony("thumbly.baldiplus.fieldtripAPI");
 
             ModdedSaveGame.AddSaveHandler(Info);
             gameObject.AddComponent<ModdedFieldTripScoreManager>();
@@ -164,7 +199,8 @@ namespace ThumblysFieldTripsAPI
 WARNING: ONLY CHECK TO TRUE IF THERE ARE MODDED FIELD TRIPS OR THIS WILL BREAK THE GAME!");
 
             LoadingEvents.RegisterOnAssetsLoaded(Info, GatherAssets(), LoadingEventOrder.Start);
-            LoadingEvents.RegisterOnAssetsLoaded(Info, RegisterFieldTrips(), LoadingEventOrder.Post);
+            LoadingEvents.RegisterOnAssetsLoaded(Info, RegisterFinal(), LoadingEventOrder.Post);
+            AssetLoader.LocalizationFromMod(this);
         }
     }
 

@@ -4,7 +4,7 @@ using ThumblysFieldTripsAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FarmComeback.Haystack
+namespace BunchOfFieldTrips.Haystack
 {
     public class Minigame_Haystack : Minigame
     {
@@ -69,6 +69,7 @@ namespace FarmComeback.Haystack
         public override void VirtualStart()
         {
             base.VirtualStart();
+            perfect = true;
             SpawnHay(getRandomHayPosition());
         }
 
@@ -200,7 +201,7 @@ namespace FarmComeback.Haystack
         protected void UpdatePlayerPosition()
         {
             localPosition.x = Mathf.RoundToInt(position);
-            playerRect.localPosition = localPosition + new Vector3(Mathf.Sin(playerWobble * 5) * Mathf.Clamp(score / 2, 0, 32), 0, 0);
+            playerRect.localPosition = localPosition + new Vector3(Mathf.Sin(playerWobble * 5) * Mathf.Clamp((score / 4), 0, 32), 0, 0);
         }
 
         protected float getRandomHayPosition() => Random.Range(Range.x, Range.y);
@@ -219,6 +220,7 @@ namespace FarmComeback.Haystack
         protected virtual void HayFell(SpriteController HaySprite)
         {
             minigameHud.LoseLife();
+            perfect = false;
             fallingHays.Remove(HaySprite);
             minigameBase.AudioManager.PlaySingle(audWrong);
 
@@ -232,6 +234,8 @@ namespace FarmComeback.Haystack
                 {
                     minigameBase.Lose();
                 }
+                Singleton<MusicManager>.Instance.StopFile();
+                Singleton<MusicManager>.Instance.StopMidi();
             }
             else
             {
@@ -277,6 +281,8 @@ namespace FarmComeback.Haystack
 
                 if (remaining <= 0)
                 {
+                    if (perfect) minigameBase.AwardPerfectBonus();
+
                     minigameBase.Win();
                 }
             }

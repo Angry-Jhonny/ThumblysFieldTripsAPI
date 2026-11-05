@@ -8,7 +8,7 @@ using PlusLevelStudio.Editor.Tools;
 
 using PlusStudioLevelFormat;
 
-namespace FarmComeback.Editor
+namespace BunchOfFieldTrips.Editor
 {
     public static class EditorSupport
     {
@@ -16,6 +16,7 @@ namespace FarmComeback.Editor
         {
             EditorInterface.AddObjectVisualWithCustomCapsuleCollider("FarmFlag", LevelLoaderPlugin.Instance.basicObjects["FarmFlag"], 3, 26, 1, Vector3.up * 13f);
             EditorInterface.AddObjectVisualWithCustomCapsuleCollider("SoonSign", LevelLoaderPlugin.Instance.basicObjects["SoonSign"], 5, 10, 1, Vector3.up * 5f);
+            EditorInterface.AddObjectVisualWithCustomCapsuleCollider("AnimalSign", LevelLoaderPlugin.Instance.basicObjects["AnimalSign"], 5, 10, 1, Vector3.up * 5f);
             EditorInterface.AddObjectVisualWithCustomBoxCollider("AnimalFence", LevelLoaderPlugin.Instance.basicObjects["AnimalFence"], new Vector3(10, 10, 1), new Vector3(0, 5, 5));
             EditorBasicObject hayVisualObject = EditorInterface.AddObjectVisualWithCustomCapsuleCollider("HayObject", LevelLoaderPlugin.Instance.basicObjects["HayObject"], 4, 10, 1, Vector3.up * 4.5f);
             hayVisualObject.gameObject.ReplaceAnimatedRotators();
@@ -25,12 +26,13 @@ namespace FarmComeback.Editor
 
         public static void AddContentToMode(EditorMode mode, bool vanillaCompliant)
         {
-            Dictionary<string, Sprite> icons = FarmComebackPlugin.EditorIcons;
+            Dictionary<string, Sprite> icons = BunchOfTripsPlugin.EditorIcons;
 
             EditorInterfaceModes.AddToolsToCategory(mode, "objects", new EditorTool[]
             {
                 new ObjectTool("Barn", icons["Editor_Barn"]),
                 new ObjectToolNoRotation("FarmFlag", icons["Editor_FarmFlag"]),
+                new ObjectToolNoRotation("AnimalSign", icons["Editor_AnimalSign"]),
                 new ObjectTool("SoonSign", icons["Editor_Sign"]),
                 new ObjectTool("AnimalFence", icons["Editor_Fence"]),
                 new ObjectTool("HayObject", icons["Editor_Hay"])

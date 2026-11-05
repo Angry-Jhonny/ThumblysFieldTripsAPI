@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37502.11
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmComeback", "FarmComeback\FarmComeback.csproj", "{04841EB3-889D-4AB9-BBD1-49053529B312}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BunchOfFieldTrips", "FarmComeback\BunchOfFieldTrips.csproj", "{04841EB3-889D-4AB9-BBD1-49053529B312}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumblysFieldTripsAPI", "ThumblysFieldTripsAPI\ThumblysFieldTripsAPI.csproj", "{EC618CE7-849A-4678-8FC4-B0D35166C26E}"
 EndProject

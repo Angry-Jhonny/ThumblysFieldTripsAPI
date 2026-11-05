@@ -21,8 +21,6 @@ namespace ThumblysFieldTripsAPI.Extentions
         public TMP_Text[] valueTmp = new TMP_Text[0];
         public TMP_Text titleTmp;
 
-        public ScoringType scoringType;
-
         public void Setup(MinigameHighScoreTable highScoreTable)
         {
             if (initialized) return;
@@ -36,10 +34,12 @@ namespace ThumblysFieldTripsAPI.Extentions
         {
             string enumName = EnumExtensions.GetExtendedName<MinigameName>((int)minigame);
 
-            titleTmp.text = Singleton<LocalizationManager>.Instance.GetLocalizedText(nameKey) + " " + Singleton<LocalizationManager>.Instance.GetLocalizedText("Mgm_Leaderboard");
-            List<FieldTripScore> sortedScores = Singleton<ModdedFieldTripScoreManager>.Instance.GetSortedScoresForMinigame(enumName, scoringType.GetWinsType());
+            MinigameMetadata minigameMeta = MinigameMetaStorage.Instance.Get(minigame);
 
-            bool isTimed = scoringType.IsTimeScoring();
+            titleTmp.text = Singleton<LocalizationManager>.Instance.GetLocalizedText(nameKey) + " " + Singleton<LocalizationManager>.Instance.GetLocalizedText("Mgm_Leaderboard");
+            List<FieldTripScore> sortedScores = Singleton<ModdedFieldTripScoreManager>.Instance.GetSortedScoresForMinigame(enumName, minigameMeta.flags.HasFlag(MinigameFlags.TimeScoring));
+
+            bool isTimed = minigameMeta.flags.HasFlag(MinigameFlags.TimeScoring);
 
             for (int i = 0; i < nameTmp.Length; i++)
             {
@@ -48,14 +48,14 @@ namespace ThumblysFieldTripsAPI.Extentions
                     nameTmp[i].text = sortedScores[i].name;
                     if (isTimed)
                     {
-                        float currentScore = (float)sortedScores[i].score / 100f;
+                        float currentScore = (float)sortedScores[i].score;
                         int seconds = Mathf.FloorToInt(currentScore % 60f);
                         int minutes = Mathf.FloorToInt(currentScore / 60f);
-                        int miliseconds = Mathf.FloorToInt((currentScore % 1) * 100);
+                        int miliseconds = Mathf.FloorToInt((currentScore % 1) * 1000);
                         TMP_Text text = valueTmp[i];
                         text.alignment = TextAlignmentOptions.Right;
                         text.enableWordWrapping = false;
-                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, Format00(minutes), Format00(seconds), Format00(miliseconds));
+                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, minutes, seconds,miliseconds);
                     }
                     else
                     {
@@ -70,7 +70,7 @@ namespace ThumblysFieldTripsAPI.Extentions
                         TMP_Text text = valueTmp[i];
                         text.alignment = TextAlignmentOptions.Right;
                         text.enableWordWrapping = false;
-                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, "00", "00", "00");
+                        text.text = string.Format(FieldTripsAPI.TimeScoreFormat, "00", "00", "000");
                     }
                     else
                     {

@@ -1,8 +1,10 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using MTM101BaldAPI;
 using MTM101BaldAPI.AssetTools;
 using MTM101BaldAPI.Components;
 using MTM101BaldAPI.Components.Animation;
+using MTM101BaldAPI.Reflection;
 using System.Collections.Generic;
 using System.Reflection;
 using ThumblysFieldTripsAPI.Helpers;
